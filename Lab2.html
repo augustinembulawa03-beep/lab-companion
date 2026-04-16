@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 2 – Diodes I | Lab Companion</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="w3-bar header-bar">
+    <div class="header-top">
+      <a href="ColHomePage.html" class="logo-wrap" aria-label="Go to homepage">
+        <img src="logo.png" alt="Lab Companion logo" class="logo-img" />
+        <span class="logo-label">Lab Companion</span>
+      </a>
+    </div>
+
+    <div class="header-bottom">
+      <div class="lab-page-nav" aria-label="Lab navigation">
+        <a href="ColHomePage.html#pick-labs" class="back-to-labs">Back to Labs</a>
+        <div class="lab-context-nav">
+          <a href="Lab2.html" class="lab-context-link active">Lab 2</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="2">Theory</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="3">Build</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="4">Quiz</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="lab-page-wrap">
+    <section class="w3-card w3-white lab-header-bar">
+      <div class="w3-row-padding">
+        <div class="w3-col m8 s12">
+          <h1 class="lab-header-title">Lab 2 · Diodes I</h1>
+          <p class="lab-breadcrumb">Home &gt; Labs &gt; Lab 2</p>
+
+          <div class="lab-stepper">
+            <div class="lab-stepper-top">
+              <span class="lab-step-badge">
+                Step <span id="step-number">1</span> of 4
+              </span>
+              <span class="lab-step-title" id="step-title">Before You Start</span>
+            </div>
+            <div class="lab-stepper-buttons" aria-label="Lab step navigation">
+              <button class="lab-step-btn active" type="button" data-step="1">1 · Prep</button>
+              <button class="lab-step-btn" type="button" data-step="2">2 · Theory</button>
+              <button class="lab-step-btn" type="button" data-step="3">3 · Build</button>
+              <button class="lab-step-btn" type="button" data-step="4">4 · Quiz</button>
+            </div>
+          </div>
+        </div>
+        <div class="w3-col m4 s12">
+          <p class="w3-small w3-right-align">Progress</p>
+          <div class="lab-progress-track w3-light-grey">
+            <div id="lab-progress-fill" class="lab-progress-fill"></div>
+          </div>
+          <p id="lab-progress-text" class="w3-small w3-right-align">0% complete</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="lab-step" id="step-1">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Overview</h2>
+        <p>
+          In this lab you will measure the current–voltage (I–V) relationship of a silicon diode in
+          forward and reverse bias, and plot the characteristic that you observe.
+        </p>
+        <p>
+          This matters because real diodes do not behave like ideal on/off switches. Their knee voltage,
+          leakage current and power dissipation limits all affect how power supplies, protection circuits
+          and digital logic behave in real hardware.
+        </p>
+        <p style="margin-top: 12px;">
+          <a class="w3-button btn-how-it-works" href="lab%202%20%20-%20Diodes%20I_v2.docx" target="_blank" rel="noopener">
+            Open labsheet (DOCX)
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Learning Outcomes</h2>
+        <p class="lab-mlo">
+          <strong>MLOs covered:</strong> K1, K2, S1, S2<br />
+          <strong>(Si vs Ge comparison):</strong> K1, K3, S1
+        </p>
+        <ul class="w3-ul">
+          <li>✔ Measure diode voltage and current accurately.</li>
+          <li>✔ Plot the I–V characteristic from measured data.</li>
+          <li>✔ Compare silicon (1N4148) and germanium (1N34A) forward characteristics.</li>
+          <li>✔ Compare forward and reverse bias behaviour for both diode types.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="lab-two-col">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Equipment Checklist</h2>
+          <ul class="w3-ul">
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Silicon diode: <strong>1N4148</strong></label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Germanium diode: <strong>1N34A</strong></label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Series resistor: <strong>100 Ω (2 W)</strong></label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Power supply: <strong>Keithley 2331A-30-3</strong></label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />DMM: <strong>Keithley 2110-240</strong></label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Breadboard and connecting leads</label></li>
+          </ul>
+          <label class="progress-check">
+            <input type="checkbox" class="prog-cb" />
+            <span>I have all equipment ready</span>
+          </label>
+        </div>
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Safety &amp; Common Mistakes</h2>
+          <ul class="w3-ul">
+            <li>⚠ Before switching on, set the power-supply <strong>current limit to 100 mA</strong>.</li>
+            <li>⚠ For voltage measurement, set DMM to DCV and use the <strong>top-right red</strong> and <strong>right black</strong> ports (parallel measurement).</li>
+            <li>⚠ For current measurement, place DMM <strong>in series</strong> using <strong>SHIFT + DCV</strong>, with <strong>white 3A</strong> and <strong>right black</strong> ports.</li>
+            <li>⚠ In reverse-bias testing, swap the PSU polarity at the supply side only; do not rewire the whole breadboard.</li>
+          </ul>
+          <label class="progress-check">
+            <input type="checkbox" class="prog-cb" />
+            <span>I have read and understood the safety warnings</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button" disabled>Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-2" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Theory Mini-Lesson</h2>
+        <p class="lab-section-subtitle">2–4 minute read – key ideas only</p>
+        <p>
+          A diode ideally conducts in one direction only. In practice, very little current flows until a
+          "knee" voltage is reached (about 0.6–0.7 V for silicon, about 0.2–0.3 V for germanium). Beyond
+          this point the current rises quickly for small changes in voltage.
+        </p>
+        <p>
+          In reverse bias, only a tiny leakage current flows until breakdown, which is far above the
+          voltages used in this lab. A series resistor is therefore used to limit the current so the
+          diode stays within its safe operating area.
+        </p>
+        <p>
+          In this experiment you compare two devices: silicon (1N4148) and
+          germanium (1N34A). Silicon typically turns on around
+          <strong>0.6–0.7 V</strong>, while germanium turns on around <strong>0.2–0.3 V</strong>.
+          The different knee behaviour is linked to different semiconductor material properties.
+        </p>
+        <p>The power in the diode at any instant is:</p>
+        <p><code>P = V<sub>D</sub> × I<sub>D</sub></code></p>
+        <label class="progress-check">
+          <input type="checkbox" class="prog-cb" />
+          <span>I have read the theory section</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Theory Video</h2>
+        <p class="lab-section-subtitle">PPT narration – watch before you start building</p>
+        <div class="w3-card w3-padding lab-video-item" data-url="lab2-theory.mp4">
+          <p><strong>▶ Lecture Recording (Theory)</strong></p>
+          <p class="w3-small">Diode background concepts and expected I–V behaviour.</p>
+        </div>
+        <label class="progress-check">
+          <input type="checkbox" class="prog-cb" />
+          <span>I have watched the theory video</span>
+        </label>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-3" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Step-by-Step Procedure</h2>
+        <ol>
+          <li>
+            <strong>Task 1: Complete diode datasheet values before building</strong>
+            <br />
+            Fill in the key datasheet values for both <strong>1N4148</strong> and <strong>1N34A</strong>:
+            rated wattage, maximum forward current, and peak reverse voltage.
+            <br /><span class="w3-small">Hint: prepare this table first so you can compare your measured values against limits later.</span>
+            <label class="progress-check">
+              <input type="checkbox" class="prog-cb" />
+              <span>Task 1 complete</span>
+            </label>
+          </li>
+          <li>
+            <strong>Task 2: Forward-bias measurements for silicon diode (1N4148)</strong>
+            <br />
+            Build PSU to 100 Ω resistor to diode. Set current limit to <strong>100 mA</strong> before enabling output.
+            Set target current values (<strong>100, 50, 20, 10, 5, 2, 1 mA</strong>) and record diode voltage at each point.
+            Then set fixed voltages (<strong>0.5 V, 0.25 V, 0.1 V</strong>) to capture low-current data.
+            <br /><span class="w3-small">Hint: voltage measurement uses DMM in parallel (DCV, top-right red + right black). Current measurement uses series insertion (SHIFT + DCV, white 3A + right black).</span>
+            <label class="progress-check">
+              <input type="checkbox" class="prog-cb" />
+              <span>Task 2 complete</span>
+            </label>
+          </li>
+          <li>
+            <strong>Task 3: Reverse-bias sweep and repeat for germanium (1N34A)</strong>
+            <br />
+            For reverse bias, swap <strong>PSU + and − leads on the supply side</strong> and measure from
+            <strong>0 V to −10 V</strong> in <strong>−2 V steps</strong>.
+            Repeat forward + reverse process for <strong>1N34A</strong>, then plot both I–V curves in Excel
+            with clear axis labels and titles.
+            <br /><span class="w3-small">Hint: keep the same measurement method and table format for both diodes so comparison is valid.</span>
+            <label class="progress-check">
+              <input type="checkbox" class="prog-cb" />
+              <span>Task 3 complete</span>
+            </label>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Data Capture &amp; Calculations</h2>
+        <p class="lab-section-subtitle">Use the blank tables provided in the linked labsheet (silicon and germanium).</p>
+        <p class="w3-small" style="margin-top:0;">
+          Record your forward-bias and reverse-bias data in the labsheet tables, then plot both I–V curves in Excel
+          with clearly labelled axes and titles (silicon vs germanium).
+        </p>
+        <label class="progress-check">
+          <input type="checkbox" class="prog-cb" />
+          <span>I have recorded my measurements</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Build Step Video Placeholder</h2>
+        <div class="w3-card w3-padding lab-video-item" data-url="lab2-video.mp4">
+          <p><strong>▶ Building the Diode Test Circuit</strong></p>
+          <p class="w3-small">Follow the guided wiring and measurement checks for this lab.</p>
+        </div>
+        <label class="progress-check">
+          <input type="checkbox" class="prog-cb" />
+          <span>I have watched the video</span>
+        </label>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-4" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Interactive Quiz</h2>
+        <p class="lab-section-subtitle">Instant feedback with explanation</p>
+
+        <p><strong>1. In forward bias, how should the diode be connected?</strong></p>
+        <div class="lab-quiz-options">
+          <label><input type="radio" name="q1" value="a" /> Anode to negative, cathode to positive.</label>
+          <label><input type="radio" name="q1" value="b" /> Anode to positive, cathode to negative.</label>
+          <label><input type="radio" name="q1" value="c" /> It does not matter; a diode is symmetrical.</label>
+        </div>
+
+        <p><strong>2. V<sub>D</sub> = 0.7 V and I<sub>D</sub> = 40 mA. What is the power in the diode?</strong></p>
+        <input id="q2" class="w3-input w3-border lab-quiz-input" type="number" placeholder="Answer in mW" />
+
+        <p><strong>3. Spot the mistake:</strong> A student connects the ammeter directly across the power
+          supply in parallel with the circuit. What is wrong?</p>
+        <div class="lab-quiz-options">
+          <label><input type="radio" name="q3" value="a" /> Nothing – this is the correct way to measure current.</label>
+          <label><input type="radio" name="q3" value="b" /> The ammeter should be in series; this connection can short the supply.</label>
+          <label><input type="radio" name="q3" value="c" /> The diode should also be in parallel with the ammeter.</label>
+        </div>
+
+        <button id="quiz-submit" class="w3-button btn-how-it-works" type="button">Submit</button>
+        <p id="quiz-feedback" class="lab-quiz-feedback"></p>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Post-Lab Reflection</h2>
+        <ul class="lab-reflection-list">
+          <li>Silicon: From your graph, estimate the turn-on (knee) region and explain your method.</li>
+          <li>Silicon: How closely did reverse current remain near zero from 0 to −10 V?</li>
+          <li>Silicon: Which measured point differed most from expectation, and what setup issue might explain it?</li>
+          <li>Silicon: How do datasheet limits (IF max, PRV, power) influence your measurement range choices?</li>
+          <li>Silicon: Why is current-limit configuration before power-on important in this experiment?</li>
+          <li>Silicon: How would probe/meter placement errors distort the I–V curve shape?</li>
+          <li>Germanium: Compare the knee region with silicon and explain the practical implication.</li>
+          <li>Germanium: Did reverse leakage differ from silicon in your data? Explain what you observed.</li>
+          <li>Germanium: Which applications benefit from lower forward turn-on behaviour?</li>
+        </ul>
+        <label class="progress-check">
+          <input type="checkbox" class="prog-cb" />
+          <span>I have completed my reflection</span>
+        </label>
+      </div>
+    </section>
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button" disabled>Next</button>
+    </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var currentStep = 1;
+      var totalSteps = 4;
+      var stepTitleMap = {
+        1: "Before You Start",
+        2: "Theory & Background",
+        3: "Practical Build",
+        4: "Quiz & Reflection"
+      };
+
+      var stepNumberEl = document.getElementById("step-number");
+      var stepTitleEl = document.getElementById("step-title");
+      var stepBtns = document.querySelectorAll(".lab-step-btn");
+      var contextLinks = document.querySelectorAll(".lab-context-link[data-step]");
+
+      function isStepComplete(step) {
+        var stepEl = document.getElementById("step-" + step);
+        if (!stepEl) return true;
+        var stepChecks = stepEl.querySelectorAll(".prog-cb");
+        if (!stepChecks.length) return true;
+        var complete = true;
+        stepChecks.forEach(function (cb) {
+          if (!cb.checked) complete = false;
+        });
+        return complete;
+      }
+
+      function canNavigateTo(targetStep) {
+        for (var i = 1; i < targetStep; i++) {
+          if (!isStepComplete(i)) return false;
+        }
+        return true;
+      }
+
+      function showStep(step, keepScroll) {
+        currentStep = step;
+        for (var i = 1; i <= totalSteps; i++) {
+          var el = document.getElementById("step-" + i);
+          if (el) el.style.display = (i === step) ? "block" : "none";
+        }
+        if (stepNumberEl) stepNumberEl.textContent = String(step);
+        if (stepTitleEl) stepTitleEl.textContent = stepTitleMap[step] || "Step";
+
+        stepBtns.forEach(function (btn) {
+          var s = parseInt(btn.getAttribute("data-step"), 10);
+          if (s === step) btn.classList.add("active");
+          else btn.classList.remove("active");
+        });
+        contextLinks.forEach(function (link) {
+          var s = parseInt(link.getAttribute("data-step"), 10);
+          if (s === step) link.classList.add("active");
+          else link.classList.remove("active");
+        });
+        document.querySelectorAll(".lab-prev").forEach(function (b) {
+          b.disabled = (currentStep === 1);
+        });
+        document.querySelectorAll(".lab-next").forEach(function (b) {
+          b.disabled = (currentStep === totalSteps) || !isStepComplete(currentStep);
+        });
+        if (!keepScroll) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function nextStep() {
+        if (currentStep < totalSteps && isStepComplete(currentStep)) showStep(currentStep + 1);
+      }
+      function prevStep() {
+        if (currentStep > 1) showStep(currentStep - 1);
+      }
+
+      stepBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var s = parseInt(btn.getAttribute("data-step"), 10);
+          if (!isNaN(s) && canNavigateTo(s)) showStep(s);
+        });
+      });
+      contextLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          var s = parseInt(link.getAttribute("data-step"), 10);
+          if (!isNaN(s) && canNavigateTo(s)) showStep(s);
+        });
+      });
+      document.querySelectorAll(".lab-next").forEach(function (btn) {
+        btn.addEventListener("click", nextStep);
+      });
+      document.querySelectorAll(".lab-prev").forEach(function (btn) {
+        btn.addEventListener("click", prevStep);
+      });
+
+      var checkboxes = document.querySelectorAll(".prog-cb");
+      var progressFill = document.getElementById("lab-progress-fill");
+      var progressText = document.getElementById("lab-progress-text");
+
+      function updateProgress() {
+        var total = checkboxes.length;
+        var checked = 0;
+        checkboxes.forEach(function (cb) { if (cb.checked) checked++; });
+        var pct = total ? Math.round((checked / total) * 100) : 0;
+        progressFill.style.width = pct + "%";
+        progressText.textContent = pct + "% complete";
+      }
+
+      checkboxes.forEach(function (cb) {
+        cb.addEventListener("change", function () {
+          updateProgress();
+          showStep(currentStep, true);
+        });
+      });
+
+      // Auto-check equipment list when "I have all equipment ready" is ticked
+      (function () {
+        var readyLabel = Array.prototype.find.call(
+          document.querySelectorAll("#step-1 .progress-check"),
+          function (l) { return (l.textContent || "").indexOf("I have all equipment ready") !== -1; }
+        );
+        var readyCb = readyLabel ? readyLabel.querySelector("input.prog-cb") : null;
+        var card = readyLabel ? readyLabel.closest(".w3-card") : null;
+        var equipCbs = card ? card.querySelectorAll("ul .prog-cb") : null;
+        if (!readyCb || !equipCbs) return;
+
+        readyCb.addEventListener("change", function () {
+          if (!readyCb.checked) return;
+          equipCbs.forEach(function (cb) { cb.checked = true; });
+          updateProgress();
+          showStep(currentStep, true);
+        });
+      })();
+
+      var submitBtn = document.getElementById("quiz-submit");
+      var feedback = document.getElementById("quiz-feedback");
+
+      if (submitBtn) {
+        submitBtn.addEventListener("click", function () {
+          var score = 0;
+          var total = 3;
+          var messages = [];
+
+          var q1 = document.querySelector("input[name='q1']:checked");
+          if (!q1) {
+            messages.push("Q1: Please select an answer.");
+          } else if (q1.value === "b") {
+            score++;
+            messages.push("Q1: ✅ Correct — forward bias means anode at higher potential than cathode.");
+          } else if (q1.value === "a") {
+            messages.push("Q1: ❌ Not quite — that connection is reverse bias, so current is very small.");
+          } else {
+            messages.push("Q1: ❌ Not quite — diodes are directional devices, so orientation matters.");
+          }
+
+          var q2Value = parseFloat(document.getElementById("q2").value);
+          if (isNaN(q2Value)) {
+            messages.push("Q2: Please enter a number (mW).");
+          } else if (Math.abs(q2Value - 28) <= 1) {
+            score++;
+            messages.push("Q2: ✅ Correct — P = V × I = 0.7 × 0.04 = 0.028 W = <strong>28 mW</strong>.");
+          } else {
+            messages.push("Q2: ❌ Check the units: 40 mA = 0.04 A, so P = 0.7 × 0.04 = 0.028 W = <strong>28 mW</strong>.");
+          }
+
+          var q3 = document.querySelector("input[name='q3']:checked");
+          if (!q3) {
+            messages.push("Q3: Please select an answer.");
+          } else if (q3.value === "b") {
+            score++;
+            messages.push("Q3: ✅ Correct — an ammeter must be in series. Parallel connection can create a near short.");
+          } else if (q3.value === "a") {
+            messages.push("Q3: ❌ Not quite — this is unsafe and can short the supply.");
+          } else {
+            messages.push("Q3: ❌ Not quite — the key issue is ammeter placement (series vs parallel), not adding another parallel branch.");
+          }
+
+          var header = (score === total)
+            ? "<strong>Great work — " + score + " / " + total + ".</strong>"
+            : "<strong>You scored " + score + " / " + total + ".</strong> Use the feedback below and retry.";
+          feedback.innerHTML = header + "<br><br>" + messages.join("<br><br>");
+        });
+      }
+
+      document.querySelectorAll(".lab-video-item").forEach(function (card) {
+        card.addEventListener("click", function () {
+          var url = card.getAttribute("data-url");
+          if (url) window.open(url, "_blank");
+        });
+      });
+
+      showStep(1);
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>

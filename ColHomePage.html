@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab Companion</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="w3-bar header-bar">
+    <div class="header-top">
+      <a href="ColHomePage.html" class="logo-wrap" aria-label="Go to homepage">
+        <img src="logo.png" alt="Lab Companion logo" class="logo-img" />
+        <span class="logo-label">Lab Companion</span>
+      </a>
+    </div>
+
+    <div class="header-bottom">
+      <nav class="header-nav" aria-label="Primary navigation">
+        <a href="ColHomePage.html" class="w3-button nav-link active">Home</a>
+        <div class="w3-dropdown-hover">
+          <button type="button" class="w3-button labs-dropdown-trigger">
+            Labs ▾
+          </button>
+          <div class="w3-dropdown-content w3-bar-block w3-white labs-dropdown-menu">
+            <a href="Lab1.html" class="w3-bar-item w3-button">Lab 1 – Introduction to components</a>
+            <a href="Lab2.html" class="w3-bar-item w3-button">Lab 2 – Diodes I</a>
+            <a href="Lab3.html" class="w3-bar-item w3-button">Lab 3 – Transistors I</a>
+            <a href="Lab4.html" class="w3-bar-item w3-button">Lab 4 – MOSFET</a>
+            <a href="Lab5.html" class="w3-bar-item w3-button">Lab 5 – CMOS</a>
+          </div>
+        </div>
+        <div class="w3-dropdown-hover">
+          <button type="button" class="w3-button labs-dropdown-trigger">
+            Support ▾
+          </button>
+          <div class="w3-dropdown-content w3-bar-block w3-white labs-dropdown-menu">
+            <a href="Troubleshoot.html" class="w3-bar-item w3-button">Troubleshoot</a>
+            <a href="HowItWorks.html" class="w3-bar-item w3-button">How It Works</a>
+            <a href="Support.html#faqs" class="w3-bar-item w3-button">FAQs</a>
+          </div>
+        </div>
+        <a href="ContactFeedback.html" class="w3-button nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="w3-container hero-premium">
+    <h1 class="hero-title">Lab Companion</h1>
+    <p class="hero-tagline">Lost in a lab? Pick yours below and follow the steps.</p>
+
+    <p class="hero-buttons">
+      <a href="#pick-labs" class="w3-button btn-start-lab">Start Lab</a>
+      <a href="HowItWorks.html" class="w3-button btn-how-it-works">How it works</a>
+    </p>
+  </section>
+
+  <section id="pick-labs" class="w3-container section-pick-lab">
+    <h2 class="section-title">Pick Your Lab</h2>
+    <p class="section-subheading">
+      Choose an exercise to start guided build steps, measurements, and troubleshooting.
+    </p>
+
+    <div class="lab-grid">
+      <div class="w3-card lab-card">
+        <a href="Lab1.html" class="lab-card-mainlink" aria-label="Open Lab 1 page">
+          <span class="lab-icon" aria-hidden="true">
+            <img src="images/lab1.png" alt="Lab 1 – introduction to components" />
+          </span>
+          <h3 class="lab-card-title">Lab 1</h3>
+          <p class="lab-card-subtitle">Introduction to components</p>
+          <p class="lab-card-desc">
+            Start here. Learn to read a breadboard, identify components, and use the bench PSU safely.
+          </p>
+        </a>
+        <div class="lab-card-links" aria-label="Lab 1 links">
+          <a class="w3-button btn-start-lab lab-card-btn" href="Lab1.html">Open guide</a>
+          <a class="w3-button btn-how-it-works lab-card-btn" href="Lab%201%20-%20Introduction%20to%20components%20v2.docx" target="_blank" rel="noopener">Labsheet</a>
+        </div>
+      </div>
+
+      <div class="w3-card lab-card">
+        <a href="Lab2.html" class="lab-card-mainlink" aria-label="Open Lab 2 page">
+          <span class="lab-icon" aria-hidden="true">
+            <img src="images/lab2.png" alt="Lab 2 – diodes I" />
+          </span>
+          <h3 class="lab-card-title">Lab 2</h3>
+          <p class="lab-card-subtitle">Diodes I</p>
+          <p class="lab-card-desc">
+            Diode circuits: forward bias, reverse bias, and how to capture an I–V curve.
+          </p>
+        </a>
+        <div class="lab-card-links" aria-label="Lab 2 links">
+          <a class="w3-button btn-start-lab lab-card-btn" href="Lab2.html">Open guide</a>
+          <a class="w3-button btn-how-it-works lab-card-btn" href="lab%202%20%20-%20Diodes%20I_v2.docx" target="_blank" rel="noopener">Labsheet</a>
+        </div>
+      </div>
+
+      <div class="w3-card lab-card">
+        <a href="Lab3.html" class="lab-card-mainlink" aria-label="Open Lab 3 page">
+          <span class="lab-icon" aria-hidden="true">
+            <img src="images/lab3.png" alt="Lab 3 – transistors I" />
+          </span>
+          <h3 class="lab-card-title">Lab 3</h3>
+          <p class="lab-card-subtitle">Transistors I</p>
+          <p class="lab-card-desc">
+            Identify unknown BJTs and measure input characteristics in a common-emitter circuit.
+          </p>
+        </a>
+        <div class="lab-card-links" aria-label="Lab 3 links">
+          <a class="w3-button btn-start-lab lab-card-btn" href="Lab3.html">Open guide</a>
+          <a class="w3-button btn-how-it-works lab-card-btn" href="Lab%206%20-%20Transistors%20I_v2.docx" target="_blank" rel="noopener">Labsheet</a>
+        </div>
+      </div>
+
+      <div class="w3-card lab-card">
+        <a href="Lab4.html" class="lab-card-mainlink" aria-label="Open Lab 4 page">
+          <span class="lab-icon" aria-hidden="true">
+            <img src="images/lab4.png" alt="Lab 4 – MOSFET" />
+          </span>
+          <h3 class="lab-card-title">Lab 4</h3>
+          <p class="lab-card-subtitle">MOSFET</p>
+          <p class="lab-card-desc">
+            Plot output + transfer characteristics, then extract Vt, gm, and ro.
+          </p>
+        </a>
+        <div class="lab-card-links" aria-label="Lab 4 links">
+          <a class="w3-button btn-start-lab lab-card-btn" href="Lab4.html">Open guide</a>
+          <a class="w3-button btn-how-it-works lab-card-btn" href="Lab%208%20-%20MOSFET%20v2%20student.docx" target="_blank" rel="noopener">Labsheet</a>
+        </div>
+      </div>
+
+      <div class="w3-card lab-card">
+        <a href="Lab5.html" class="lab-card-mainlink" aria-label="Open Lab 5 page">
+          <span class="lab-icon" aria-hidden="true">
+            <img src="images/lab5.png" alt="Lab 5 – CMOS" />
+          </span>
+          <h3 class="lab-card-title">Lab 5</h3>
+          <p class="lab-card-subtitle">CMOS</p>
+          <p class="lab-card-desc">
+            Build a CMOS inverter, capture its transfer curve in XY mode, and measure propagation delay.
+          </p>
+        </a>
+        <div class="lab-card-links" aria-label="Lab 5 links">
+          <a class="w3-button btn-start-lab lab-card-btn" href="Lab5.html">Open guide</a>
+          <a class="w3-button btn-how-it-works lab-card-btn" href="Week%2027%20-%20CMOS%20updated%20by%20Jarede%20(1).docx" target="_blank" rel="noopener">Labsheet</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="w3-container section-common-problems">
+    <h2 class="section-title">Common Problems This Helps With</h2>
+
+    <div class="problems-grid">
+      <div class="w3-card problem-card">
+        <span class="problem-icon" aria-hidden="true">
+          <img src="images/problem-icons/schematic.png" alt="" />
+        </span>
+        <h3 class="problem-card-title">Schematic to Breadboard</h3>
+        <p class="problem-card-desc">
+          Clear mapping from circuit diagrams to physical breadboard layout.
+        </p>
+      </div>
+
+      <div class="w3-card problem-card">
+        <span class="problem-icon" aria-hidden="true">
+          <img src="images/problem-icons/orientation.png" alt="" />
+        </span>
+        <h3 class="problem-card-title">Orientation</h3>
+        <p class="problem-card-desc">
+          Proper component orientation and pin identification.
+        </p>
+      </div>
+
+      <div class="w3-card problem-card">
+        <span class="problem-icon" aria-hidden="true">
+          <img src="images/problem-icons/measurements.png" alt="" />
+        </span>
+        <h3 class="problem-card-title">Measurements</h3>
+        <p class="problem-card-desc">
+          Guidance on where and how to take accurate measurements.
+        </p>
+      </div>
+
+      <div class="w3-card problem-card">
+        <span class="problem-icon" aria-hidden="true">
+          <img src="images/problem-icons/faults.png" alt="" />
+        </span>
+        <h3 class="problem-card-title">Faults</h3>
+        <p class="problem-card-desc">
+          Decision-based troubleshooting for common faults.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p class="footer-text">© 2026 Electronics Lab Companion. Designed to support undergraduate laboratory sessions.</p>
+  </footer>
+
+  <script src="nav-dropdowns.js"></script>
+</body>
+</html>

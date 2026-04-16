@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 3 – Transistors I | Lab Companion</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="w3-bar header-bar">
+    <div class="header-top">
+      <a href="ColHomePage.html" class="logo-wrap" aria-label="Go to homepage">
+        <img src="logo.png" alt="Lab Companion logo" class="logo-img" />
+        <span class="logo-label">Lab Companion</span>
+      </a>
+    </div>
+
+    <div class="header-bottom">
+      <div class="lab-page-nav" aria-label="Lab navigation">
+        <a href="ColHomePage.html#pick-labs" class="back-to-labs">Back to Labs</a>
+        <div class="lab-context-nav">
+          <a href="Lab3.html" class="lab-context-link active">Lab 3</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="2">Theory</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="3">Build</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="4">Quiz</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="lab-page-wrap">
+    <section class="w3-card w3-white lab-header-bar">
+      <div class="w3-row-padding">
+        <div class="w3-col m8 s12">
+          <h1 class="lab-header-title">Lab 3 · Transistors I</h1>
+          <p class="lab-breadcrumb">Home &gt; Labs &gt; Lab 3</p>
+          <div class="lab-stepper">
+            <div class="lab-stepper-top">
+              <span class="lab-step-badge">
+                Step <span id="step-number">1</span> of 4
+              </span>
+              <span class="lab-step-title" id="step-title">Before You Start</span>
+            </div>
+            <div class="lab-stepper-buttons" aria-label="Lab step navigation">
+              <button class="lab-step-btn active" type="button" data-step="1">1 · Prep</button>
+              <button class="lab-step-btn" type="button" data-step="2">2 · Theory</button>
+              <button class="lab-step-btn" type="button" data-step="3">3 · Build</button>
+              <button class="lab-step-btn" type="button" data-step="4">4 · Quiz</button>
+            </div>
+          </div>
+        </div>
+        <div class="w3-col m4 s12">
+          <p class="w3-small w3-right-align">Progress</p>
+          <div class="lab-progress-track w3-light-grey">
+            <div id="lab-progress-fill" class="lab-progress-fill"></div>
+          </div>
+          <p id="lab-progress-text" class="w3-small w3-right-align">0% complete</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="lab-step" id="step-1">
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Overview</h2>
+          <p>This lab has two parts. In <strong>Task 1</strong> you will use the DMM diode function to identify the base terminal and classify unknown transistors as NPN or PNP across six devices.</p>
+          <p>In <strong>Task 2</strong> you will build a common-emitter circuit with a BC337-40 and measure the input characteristics (<strong>I<sub>B</sub> vs V<sub>BE</sub></strong>) at fixed <strong><span class="nowrap">V<sub>CE</sub></span> = 2 V</strong> and <strong>3 V</strong>.</p>
+          <p style="margin-top: 12px;">
+            <a class="w3-button btn-how-it-works" href="Lab%206%20-%20Transistors%20I_v2.docx" target="_blank" rel="noopener">
+              Open labsheet (DOCX)
+            </a>
+          </p>
+        </div>
+      </section>
+
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Learning Outcomes</h2>
+          <p class="lab-mlo">
+            <strong>MLOs covered:</strong> K1, S1, S2<br />
+            <strong>(CE input characteristics):</strong> K1, K2, K3, S1, S2, S5
+          </p>
+          <ul class="w3-ul">
+            <li>✔ Use the DMM diode function to identify a transistor base terminal and classify NPN vs PNP.</li>
+            <li>✔ Explain the double-diode analogy and interpret forward-junction voltage readings.</li>
+            <li>✔ Build a common-emitter setup using two PSU channels (<span class="nowrap">V<sub>BB</sub></span> and <span class="nowrap">V<sub>CC</sub></span>) and R1 = 100 kΩ.</li>
+            <li>✔ Measure I<sub>B</sub> and <span class="nowrap">V<sub>BE</sub></span> while holding <span class="nowrap">V<sub>CE</sub></span> constant at 2 V and 3 V.</li>
+            <li>✔ Plot I<sub>B</sub> vs V<sub>BE</sub> and calculate dynamic input resistance using ΔV<sub>BE</sub>/ΔI<sub>B</sub>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="w3-section">
+        <div class="lab-two-col">
+          <div class="w3-card w3-white w3-padding">
+            <h2 class="lab-section-title">Equipment Checklist</h2>
+            <ul class="w3-ul">
+              <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Transistors: 2N2222A, ZTX689B, ZTX751, BC327, BC337, TIP31C</label></li>
+              <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />BC337-40 transistor for Task 2 circuit</label></li>
+              <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />R1 = 100 kΩ resistor (base circuit)</label></li>
+              <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Keithley 2231A power supply (two channels: <span class="nowrap">V<sub>BB</sub></span> and <span class="nowrap">V<sub>CC</sub></span>)</label></li>
+              <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Keithley 2110 DMM(s)</label></li>
+              <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Breadboard and connecting leads</label></li>
+            </ul>
+            <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have all equipment ready</span></label>
+          </div>
+          <div class="w3-card w3-white w3-padding">
+            <h2 class="lab-section-title">Safety &amp; Common Mistakes</h2>
+            <ul class="w3-ul">
+              <li>⚠ This lab uses two separate Keithley 2231A channels: one for <span class="nowrap">V<sub>BB</sub></span> (base) and one for <span class="nowrap">V<sub>CC</sub></span> (collector). Do not tie both channels incorrectly to the same terminal.</li>
+              <li>⚠ As <span class="nowrap">V<sub>BB</sub></span> changes, adjust <span class="nowrap">V<sub>CC</sub></span> to keep <span class="nowrap">V<sub>CE</sub></span> constant (2 V then 3 V).</li>
+              <li>⚠ When switching DMM between voltage and current mode, move the probe lead to the correct port (white 3A for current, top-right red for voltage).</li>
+              <li>⚠ Confirm transistor pin numbering before inserting into breadboard to avoid E/B/C reversal.</li>
+            </ul>
+            <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have read and understood the safety warnings</span></label>
+          </div>
+        </div>
+      </section>
+
+      <div class="lab-nav-buttons">
+        <button class="w3-button btn-how-it-works lab-prev" type="button" disabled>Back</button>
+        <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+      </div>
+    </div>
+
+    <div class="lab-step" id="step-2" style="display:none;">
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Theory Mini-Lesson</h2>
+          <p class="lab-section-subtitle">2–4 minute read – key ideas only</p>
+          <h3 style="margin:12px 0 6px; font-size:1.05rem;">1) Double-diode analogy for BJT identification</h3>
+          <p>A BJT contains two PN junctions, so it behaves like two diodes sharing the base terminal. For an NPN transistor, both base-emitter and base-collector junctions conduct when the red DMM probe is on base and black probe on emitter/collector (about 0.6 V for silicon). Reversing probes gives OL.</p>
+          <p>If forward readings appear when red is on the shared terminal, the transistor is NPN. If forward readings appear when black is on the shared terminal, it is PNP.</p>
+
+          <h3 style="margin:12px 0 6px; font-size:1.05rem;">2) Common-emitter input characteristics</h3>
+          <p>In this lab, you measure the input curve by plotting <strong>I<sub>B</sub> vs V<sub>BE</sub></strong> at fixed V<sub>CE</sub>. Common-emitter is widely used because it can provide voltage, current, and power gain.</p>
+          <p>V<sub>CC</sub> sets collector supply, V<sub>CE</sub> is collector-emitter voltage, and V<sub>BE</sub> is base-emitter voltage that controls base current.</p>
+
+          <h3 style="margin:12px 0 6px; font-size:1.05rem;">3) Dynamic input resistance</h3>
+          <p>The input characteristic looks diode-like. In the steeper region, dynamic input resistance can be estimated from <code>ΔV<sub>BE</sub> / ΔI<sub>B</sub></code>, i.e., the reciprocal of the local I<sub>B</sub>-V<sub>BE</sub> slope.</p>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have read the theory section</span></label>
+        </div>
+      </section>
+
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Theory Video</h2>
+          <p class="lab-section-subtitle">PPT narration – watch before you start building</p>
+          <div class="w3-card w3-padding lab-video-item" data-url="lab3-theory.mp4">
+            <p><strong>▶ Lecture Recording (Theory)</strong></p>
+            <p class="w3-small">BJT operation regions, current gain and biasing essentials.</p>
+          </div>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have watched the theory video</span></label>
+        </div>
+      </section>
+
+      <div class="lab-nav-buttons">
+        <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+        <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+      </div>
+    </div>
+
+    <div class="lab-step" id="step-3" style="display:none;">
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Step-by-Step Procedure</h2>
+          <ol>
+            <li><strong>Task 1 — Double-diode identification for six transistors</strong><br />
+              Hold each transistor with flat/printed side facing you: left pin = 1, middle = 2, right = 3.
+              Set DMM to diode function and record all pin pairs:
+              1 to 2, 2 to 1, 2 to 3, 3 to 2, 3 to 1, 1 to 3 (red probe on first number). Identify base terminal and classify NPN/PNP.
+              Repeat for 2N2222A, ZTX689B, ZTX751, BC327, BC337, TIP31C.
+              Then look up KSP2222 datasheet and fill VCBO, VEBO, and minimum hFE at VCE = 10 V, IC = 1 mA.
+              <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 1 complete</span></label>
+            </li>
+            <li><strong>Task 2 — Build common-emitter input-characteristic circuit (BC337-40)</strong><br />
+              Build Figure 7 style circuit with two PSU channels: Channel 1 = VBB (base path through R1 = 100 kΩ),
+              Channel 2 = VCC (collector path). Use DMM 1 in series with R1 to measure IB
+              (white 3A + black port, SHIFT then DCV), and DMM 2 in parallel for VBE/VCE
+              (top-right red + black port, DCV).
+
+              <div class="common-mistake-box">
+                <strong>Common mistake:</strong>
+                Students sometimes swap collector and emitter connections on the BC337 transistor. This allows the circuit to partially operate but produces incorrect measurements.
+              </div>
+
+              <div class="expected-result-box">
+                <strong>Expected Result:</strong>
+                Base-Emitter voltage should normally be between 0.6 V and 0.7 V for a silicon transistor.<br>
+                Values significantly lower suggest insufficient base current.<br>
+                Values significantly higher indicate wiring error.
+              </div>
+
+              <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 2 complete</span></label>
+            </li>
+            <li><strong>Task 3 — Sweep VBB and keep VCE constant</strong><br />
+              First set VCE = 2 V and keep it constant while sweeping VBB (0.1 V to 5 V per table). Record IB and VBE.
+              Then repeat entire sweep at VCE = 3 V. Plot IB vs VBE curves (both VCE values on one graph), and calculate dynamic input resistance using ΔVBE/ΔIB from the linear region.
+              <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 3 complete</span></label>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Data Capture &amp; Calculations</h2>
+          <p class="lab-section-subtitle" style="margin-top:6px;">
+            Use the blank tables provided in the linked labsheet for Task 1 identification and Task 2 input-characteristics measurements.
+          </p>
+          <p class="w3-small" style="margin-top:0;">
+            Record your readings in the labsheet tables, then plot both I<sub>B</sub> vs V<sub>BE</sub> curves (VCE = 2 V and 3 V) on one graph and extract dynamic input resistance from the linear region using ΔVBE/ΔIB.
+          </p>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have recorded my measurements</span></label>
+        </div>
+      </section>
+
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Build Step Video Placeholder</h2>
+          <div class="w3-card w3-padding lab-video-item" data-url="lab3-video.mp4">
+            <p><strong>▶ Building the BJT Bias Circuit</strong></p>
+            <p class="w3-small">Follow the guided wiring and measurement checks for this lab.</p>
+          </div>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have watched the video</span></label>
+        </div>
+      </section>
+
+      <div class="lab-nav-buttons">
+        <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+        <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+      </div>
+    </div>
+
+    <div class="lab-step" id="step-4" style="display:none;">
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Interactive Quiz</h2>
+          <p class="lab-section-subtitle">Check your understanding of Task 1 and Task 2</p>
+
+          <p><strong>1. In an NPN BJT common‑emitter configuration, which terminal is usually connected to the most positive voltage?</strong></p>
+          <div class="lab-quiz-options">
+            <label><input type="radio" name="q1" value="a" /> Emitter.</label>
+            <label><input type="radio" name="q1" value="b" /> Base.</label>
+            <label><input type="radio" name="q1" value="c" /> Collector.</label>
+          </div>
+
+          <p><strong>2. In DMM diode mode, what do you expect for an NPN transistor when the red probe is on the base and black is on the collector?</strong></p>
+          <div class="lab-quiz-options">
+            <label><input type="radio" name="q2" value="a" /> OL (open loop).</label>
+            <label><input type="radio" name="q2" value="b" /> Approximately 0.6 V.</label>
+            <label><input type="radio" name="q2" value="c" /> Approximately 0 V.</label>
+          </div>
+
+          <p><strong>3. Spot the mistake:</strong> A student forgets the base resistor and connects the base directly to the supply. What is the risk?</p>
+          <div class="lab-quiz-options">
+            <label><input type="radio" name="q3" value="a" /> Base current may be too high and damage the transistor.</label>
+            <label><input type="radio" name="q3" value="b" /> The transistor will always be off.</label>
+            <label><input type="radio" name="q3" value="c" /> Only the emitter resistor is affected.</label>
+          </div>
+
+          <button id="quiz-submit" class="w3-button btn-how-it-works" type="button">Submit</button>
+          <p id="quiz-feedback" class="lab-quiz-feedback"></p>
+        </div>
+      </section>
+
+      <section class="w3-section">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Post-Lab Reflection</h2>
+          <ul class="lab-reflection-list">
+            <li>In Task 1, did any transistor behave differently? Explain what you observed and why complementary pairs can differ.</li>
+            <li>From Table 4, at approximately what VBE does IB start rising significantly? Compare with silicon diode turn-on knowledge.</li>
+            <li>Why does VCE drift when VBB changes if VCC is left fixed, and why did you need to keep readjusting VCC?</li>
+            <li>From KSP2222 datasheet, what is minimum hFE at VCE = 10 V and IC = 1 mA, and how does it connect to the double-diode model?</li>
+          </ul>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have completed my reflection</span></label>
+        </div>
+      </section>
+
+      <div class="lab-nav-buttons">
+        <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+        <button class="w3-button btn-start-lab lab-next" type="button" disabled>Next</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var currentStep = 1;
+      var totalSteps = 4;
+      var stepTitleMap = {
+        1: "Before You Start",
+        2: "Theory & Background",
+        3: "Practical Build",
+        4: "Quiz & Reflection"
+      };
+
+      var stepNumberEl = document.getElementById("step-number");
+      var stepTitleEl = document.getElementById("step-title");
+      var stepBtns = document.querySelectorAll(".lab-step-btn");
+      var contextLinks = document.querySelectorAll(".lab-context-link[data-step]");
+
+      function isStepComplete(step) {
+        var stepEl = document.getElementById("step-" + step);
+        if (!stepEl) return true;
+        var stepChecks = stepEl.querySelectorAll(".prog-cb");
+        if (!stepChecks.length) return true;
+        var complete = true;
+        stepChecks.forEach(function (cb) {
+          if (!cb.checked) complete = false;
+        });
+        return complete;
+      }
+
+      function canNavigateTo(targetStep) {
+        for (var i = 1; i < targetStep; i++) {
+          if (!isStepComplete(i)) return false;
+        }
+        return true;
+      }
+
+      function showStep(step, keepScroll) {
+        currentStep = step;
+        for (var i = 1; i <= totalSteps; i++) {
+          var el = document.getElementById("step-" + i);
+          if (el) el.style.display = (i === step) ? "block" : "none";
+        }
+        if (stepNumberEl) stepNumberEl.textContent = String(step);
+        if (stepTitleEl) stepTitleEl.textContent = stepTitleMap[step] || "Step";
+
+        stepBtns.forEach(function (btn) {
+          var s = parseInt(btn.getAttribute("data-step"), 10);
+          if (s === step) btn.classList.add("active");
+          else btn.classList.remove("active");
+        });
+        contextLinks.forEach(function (link) {
+          var s = parseInt(link.getAttribute("data-step"), 10);
+          if (s === step) link.classList.add("active");
+          else link.classList.remove("active");
+        });
+        document.querySelectorAll(".lab-prev").forEach(function (b) {
+          b.disabled = (currentStep === 1);
+        });
+        document.querySelectorAll(".lab-next").forEach(function (b) {
+          b.disabled = (currentStep === totalSteps) || !isStepComplete(currentStep);
+        });
+        if (!keepScroll) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function nextStep() {
+        if (currentStep < totalSteps && isStepComplete(currentStep)) showStep(currentStep + 1);
+      }
+      function prevStep() {
+        if (currentStep > 1) showStep(currentStep - 1);
+      }
+
+      stepBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var s = parseInt(btn.getAttribute("data-step"), 10);
+          if (!isNaN(s) && canNavigateTo(s)) showStep(s);
+        });
+      });
+      contextLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          var s = parseInt(link.getAttribute("data-step"), 10);
+          if (!isNaN(s) && canNavigateTo(s)) showStep(s);
+        });
+      });
+      document.querySelectorAll(".lab-next").forEach(function (btn) {
+        btn.addEventListener("click", nextStep);
+      });
+      document.querySelectorAll(".lab-prev").forEach(function (btn) {
+        btn.addEventListener("click", prevStep);
+      });
+
+      var checkboxes = document.querySelectorAll(".prog-cb");
+      var progressFill = document.getElementById("lab-progress-fill");
+      var progressText = document.getElementById("lab-progress-text");
+
+      function updateProgress() {
+        var total = checkboxes.length;
+        var checked = 0;
+        checkboxes.forEach(function (cb) { if (cb.checked) checked++; });
+        var pct = total ? Math.round((checked / total) * 100) : 0;
+        progressFill.style.width = pct + "%";
+        progressText.textContent = pct + "% complete";
+      }
+
+      checkboxes.forEach(function (cb) {
+        cb.addEventListener("change", function () {
+          updateProgress();
+          showStep(currentStep, true);
+        });
+      });
+
+      // Auto-check equipment list when "I have all equipment ready" is ticked
+      (function () {
+        var readyLabel = Array.prototype.find.call(
+          document.querySelectorAll("#step-1 .progress-check"),
+          function (l) { return (l.textContent || "").indexOf("I have all equipment ready") !== -1; }
+        );
+        var readyCb = readyLabel ? readyLabel.querySelector("input.prog-cb") : null;
+        var card = readyLabel ? readyLabel.closest(".w3-card") : null;
+        var equipCbs = card ? card.querySelectorAll("ul .prog-cb") : null;
+        if (!readyCb || !equipCbs) return;
+
+        readyCb.addEventListener("change", function () {
+          if (!readyCb.checked) return;
+          equipCbs.forEach(function (cb) { cb.checked = true; });
+          updateProgress();
+          showStep(currentStep, true);
+        });
+      })();
+
+      var submitBtn = document.getElementById("quiz-submit");
+      var feedback = document.getElementById("quiz-feedback");
+
+      if (submitBtn) {
+        submitBtn.addEventListener("click", function () {
+          var score = 0, total = 3;
+          var messages = [];
+          var q1 = document.querySelector("input[name='q1']:checked");
+          if (!q1) {
+            messages.push("Q1: Please select an answer.");
+          } else if (q1.value === "c") {
+            score++;
+            messages.push("Q1: ✅ Correct — in common-emitter NPN setup, collector is typically connected toward the most positive supply node.");
+          } else {
+            messages.push("Q1: ❌ Not quite — emitter is usually near reference/ground, and base is the control terminal, not the highest-voltage node.");
+          }
+
+          var q2 = document.querySelector("input[name='q2']:checked");
+          if (!q2) {
+            messages.push("Q2: Please select an answer.");
+          } else if (q2.value === "b") {
+            score++;
+            messages.push("Q2: ✅ Correct — base-to-collector junction is forward-biased in that probe orientation for an NPN, so you expect around <strong>0.6 V</strong>.");
+          } else if (q2.value === "a") {
+            messages.push("Q2: ❌ Not quite — OL usually appears for reverse-biased orientation or wrong pin pair.");
+          } else {
+            messages.push("Q2: ❌ Not quite — near 0 V is not expected for a silicon PN junction in diode-test mode.");
+          }
+
+          var q3 = document.querySelector("input[name='q3']:checked");
+          if (!q3) {
+            messages.push("Q3: Please select an answer.");
+          } else if (q3.value === "a") {
+            score++;
+            messages.push("Q3: ✅ Correct — without R1, base current can become excessive because only a very small base-emitter junction resistance limits it, which can damage the transistor.");
+          } else {
+            messages.push("Q3: ❌ Not quite — missing base resistor does not keep transistor off; it risks overdriving the base-emitter junction.");
+          }
+
+          var header = (score === total)
+            ? "<strong>Great work — " + score + " / " + total + ".</strong>"
+            : "<strong>You scored " + score + " / " + total + ".</strong> Use the feedback below and retry.";
+          feedback.innerHTML = header + "<br><br>" + messages.join("<br><br>");
+        });
+      }
+
+      document.querySelectorAll(".lab-video-item").forEach(function (card) {
+        card.addEventListener("click", function () {
+          var url = card.getAttribute("data-url");
+          if (url) window.open(url, "_blank");
+        });
+      });
+
+      showStep(1);
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>

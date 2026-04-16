@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshoot | Lab Companion</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="w3-bar header-bar">
+    <div class="header-top">
+      <a href="ColHomePage.html" class="logo-wrap" aria-label="Go to homepage">
+        <img src="logo.png" alt="Lab Companion logo" class="logo-img" />
+        <span class="logo-label">Lab Companion</span>
+      </a>
+    </div>
+
+    <div class="header-bottom">
+      <nav class="header-nav" aria-label="Primary navigation">
+        <a href="ColHomePage.html" class="w3-button nav-link">Home</a>
+        <div class="w3-dropdown-hover">
+          <button type="button" class="w3-button labs-dropdown-trigger">Labs ▾</button>
+          <div class="w3-dropdown-content w3-bar-block w3-white labs-dropdown-menu">
+            <a href="Lab1.html" class="w3-bar-item w3-button">Lab 1 – Components &amp; Instruments</a>
+            <a href="Lab2.html" class="w3-bar-item w3-button">Lab 2 – Diodes</a>
+            <a href="Lab3.html" class="w3-bar-item w3-button">Lab 3 – BJTs</a>
+            <a href="Lab4.html" class="w3-bar-item w3-button">Lab 4 – MOSFETs</a>
+            <a href="Lab5.html" class="w3-bar-item w3-button">Lab 5 – Digital Logic</a>
+          </div>
+        </div>
+        <a href="Support.html" class="w3-button nav-link active">Support</a>
+        <a href="ContactFeedback.html" class="w3-button nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#" class="w3-button btn-signin">Sign in</a>
+        <a href="#" class="w3-button btn-register">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="troubleshoot-wrap">
+    <h1 class="troubleshoot-title">Troubleshoot</h1>
+    <p class="troubleshoot-subtitle">Select your lab and issue type to find quick fixes.</p>
+
+    <section class="troubleshoot-controls" aria-label="Troubleshoot controls">
+      <label class="troubleshoot-label" for="labSelect">Select your lab:</label>
+      <select id="labSelect" class="troubleshoot-select">
+        <option value="lab1">Lab 1 – Components &amp; Instruments</option>
+        <option value="lab2">Lab 2 – Diodes (Limiting &amp; Clamping)</option>
+        <option value="lab3">Lab 3 – BJTs</option>
+        <option value="lab4">Lab 4 – MOSFETs</option>
+        <option value="lab5">Lab 5 – Digital Logic (CMOS)</option>
+      </select>
+
+      <p class="troubleshoot-label" style="margin-top:12px;">Filter by:</p>
+      <div class="filter-row" role="group" aria-label="Filter by issue type">
+        <button type="button" class="filter-chip active" data-tag="Power">Power</button>
+        <button type="button" class="filter-chip" data-tag="Measurement">Measurement</button>
+        <button type="button" class="filter-chip" data-tag="Wiring">Wiring</button>
+        <button type="button" class="filter-chip" data-tag="Polarity">Polarity</button>
+      </div>
+    </section>
+
+    <p id="activeContext" class="summary-line" style="margin:14px 0 8px;"></p>
+
+    <section id="issuesContainer" class="accordion-wrap" aria-label="Troubleshooting topics"></section>
+  </main>
+
+  <script>
+    (function () {
+      var issueBank = {
+        lab1: [
+          {
+            tag: "Power",
+            title: "LED not turning on",
+            summary: "Structured diagnostic flow for a non-illuminating LED.",
+            problem: "LED does not illuminate when powered.",
+            causes: [
+              "Power supply not connected or incorrect PSU setting",
+              "LED polarity reversed",
+              "Wiring issue or loose connection",
+              "Faulty LED"
+            ],
+            fix: [
+              "Step 1: Measure supply voltage across LED circuit. If voltage is 0 V then power supply not connected or incorrect PSU setting. If voltage present then continue.",
+              "Step 2: Check LED polarity. If reversed then rotate LED orientation. If correct then continue.",
+              "Step 3: Measure voltage across resistor. If 0 V then wiring issue or loose connection. If expected voltage drop present then LED may be faulty."
+            ],
+            why: "LEDs only conduct current when forward biased and require correct polarity and current-limiting resistance.<br /><br /><strong>Instructor diagnostic approach:</strong><br />Start by checking supply voltage across the circuit.<br /><br />If supply voltage is present, check LED polarity.<br /><br />If polarity is correct, measure voltage across the resistor to confirm current flow.<br /><br />This mirrors the sequence typically followed by laboratory demonstrators when assisting students during sessions.",
+            theory: "Refer students to diode forward bias operation explanation in Lab 1.",
+            measurement: "Use multimeter voltage mode to confirm supply presence and resistor voltage drop."
+          },
+          {
+            tag: "Power",
+            title: "PSU current limiting immediately",
+            summary: "Supply enters CC mode as soon as output is enabled.",
+            problem: "Current limit trigger occurs instantly.",
+            causes: ["Short across rails", "Ammeter placed in parallel"],
+            fix: ["Power off and inspect rail shorts.", "Move ammeter into series path only."],
+            why: "Ammeter has very low internal resistance.",
+            theory: "Internal resistance concept from measurement fundamentals.",
+            measurement: "Check resistance between rails with power off before enabling PSU."
+          },
+          {
+            tag: "Measurement",
+            title: "No current reading",
+            summary: "Meter shows zero even when circuit should conduct.",
+            problem: "No current reading on meter.",
+            causes: ["Meter not in correct port", "Meter not in series", "Blown fuse"],
+            fix: ["Move probe to current terminal.", "Insert meter in current path.", "Check/replace meter fuse."],
+            why: "Current meters must be inserted into the current path.",
+            theory: "Ammeter placement and instrument loading.",
+            measurement: "Verify continuity across the meter fuse and confirm series placement."
+          },
+          {
+            tag: "Measurement",
+            title: "Voltage reading always 0",
+            summary: "Voltmeter reads zero despite expected drop.",
+            problem: "Voltage value remains 0 V.",
+            causes: ["Probes on same node", "Measuring across open circuit"],
+            fix: ["Place probes across two different nodes.", "Check continuity of measured branch."],
+            why: "Voltmeter is high internal resistance and must be used in parallel.",
+            theory: "Voltmeter behavior and parallel measurement principle.",
+            measurement: "Probe supply rails first, then move one node at a time to locate open points."
+          },
+          {
+            tag: "Wiring",
+            title: "Resistor not limiting current",
+            summary: "Circuit current is too high despite resistor presence.",
+            problem: "Current does not reduce as expected.",
+            causes: ["Resistor in parallel instead of series", "Incorrect resistor value"],
+            fix: ["Rewire resistor in series with load.", "Recheck colour code and value."],
+            why: "Current limiting relies on series resistance and Ohm's law.",
+            theory: "Ohm's law refresher and series/parallel behavior.",
+            measurement: "Measure voltage across resistor and compute I = V/R."
+          },
+          {
+            tag: "Polarity",
+            title: "LED reversed",
+            summary: "LED branch is wired but no current/light output.",
+            problem: "LED conducts neither light nor current.",
+            causes: ["LED orientation reversed"],
+            fix: ["Flip LED so anode is at higher potential than cathode."],
+            why: "LED is a diode and only conducts forward.",
+            theory: "Diode behavior from semiconductor fundamentals.",
+            measurement: "Use diode-test mode to identify anode/cathode before powering."
+          }
+        ],
+        lab2: [
+          {
+            tag: "Power",
+            title: "Output clipped incorrectly",
+            summary: "Clipping threshold does not match expected level.",
+            problem: "Waveform clips at wrong amplitude.",
+            causes: ["Wrong reference voltage", "Incorrect diode orientation"],
+            fix: ["Check clamp/limiter reference node.", "Correct diode direction for target clipping side."],
+            why: "Diodes conduct only when forward biased.",
+            theory: "Limiting/clamping conduction conditions.",
+            measurement: "Measure diode voltage during clipping transition."
+          },
+          {
+            tag: "Measurement",
+            title: "Waveform not clipping",
+            summary: "Oscilloscope shows little or no clipping effect.",
+            problem: "Expected clipped waveform not observed.",
+            causes: ["Oscilloscope ground incorrectly placed", "AC coupling enabled", "Probe attenuation mismatch"],
+            fix: ["Reconnect ground to circuit reference.", "Switch to DC coupling.", "Verify 1x/10x probe setting."],
+            why: "Scope grounding and coupling directly affect displayed waveform.",
+            theory: "Measurement chain influences observed behavior.",
+            measurement: "Check same node with both AC/DC coupling to confirm offset/clamp behavior."
+          },
+          {
+            tag: "Wiring",
+            title: "Clamping not shifting waveform",
+            summary: "DC shift from clamping network is missing.",
+            problem: "Waveform sits at original baseline.",
+            causes: ["Capacitor reversed", "Wrong capacitor value"],
+            fix: ["Correct capacitor polarity.", "Use value that supports intended RC time constant."],
+            why: "RC time constant controls charge retention for clamping.",
+            theory: "RC behavior in clamping circuits.",
+            measurement: "Measure capacitor voltage over time to verify charge/discharge profile."
+          },
+          {
+            tag: "Polarity",
+            title: "Diode heating",
+            summary: "Diode temperature rises unexpectedly during operation.",
+            problem: "Component gets hot under reverse/large signal conditions.",
+            causes: ["Reverse breakdown", "Exceeded peak inverse voltage"],
+            fix: ["Reduce reverse voltage stress.", "Choose diode with higher PIV rating."],
+            why: "Breakdown region can cause large reverse current and dissipation.",
+            theory: "Semiconductor reverse breakdown behavior.",
+            measurement: "Monitor reverse voltage across diode while tracking supply amplitude."
+          }
+        ],
+        lab3: [
+          {
+            tag: "Power",
+            title: "Collector voltage stuck at supply",
+            summary: "Collector node never drops from VCC.",
+            problem: "Transistor does not enter active region.",
+            causes: ["Base not biased", "No base resistor path"],
+            fix: ["Confirm base bias network wiring.", "Add/verify base resistor value."],
+            why: "Without base drive, collector current is near zero.",
+            theory: "BJT active-region biasing requirements.",
+            measurement: "Measure VBE first, then IB and IC."
+          },
+          {
+            tag: "Measurement",
+            title: "No amplification",
+            summary: "Output does not show expected gain.",
+            problem: "Measured gain appears close to 1 or 0.",
+            causes: ["Wrong measurement point", "Measuring DC instead of AC"],
+            fix: ["Probe collector/output node correctly.", "Use AC measurement method for signal gain."],
+            why: "Gain must be measured at the right node with AC component isolated.",
+            theory: "BJT gain concept (beta and stage gain).",
+            measurement: "Compare input/output AC amplitudes at same frequency."
+          },
+          {
+            tag: "Wiring",
+            title: "Transistor not switching",
+            summary: "Output state does not change with base drive.",
+            problem: "BJT appears unresponsive.",
+            causes: ["Wrong pinout", "Misidentified transistor package"],
+            fix: ["Verify E-B-C pin order from datasheet.", "Confirm package orientation on breadboard."],
+            why: "EBC reversal is a common beginner wiring error.",
+            theory: "Terminal function and device geometry.",
+            measurement: "Use diode-test between base-emitter/base-collector to identify pins."
+          },
+          {
+            tag: "Polarity",
+            title: "Transistor overheating",
+            summary: "Device heats rapidly after power-up.",
+            problem: "Excess current through BJT junctions.",
+            causes: ["No base resistor", "Too much base current"],
+            fix: ["Insert base resistor immediately.", "Recalculate base-drive current."],
+            why: "Base-emitter junction behaves like a diode and can overdraw current.",
+            theory: "Junction behavior and safe biasing.",
+            measurement: "Measure base resistor drop and compute base current."
+          }
+        ],
+        lab4: [
+          {
+            tag: "Power",
+            title: "MOSFET always on",
+            summary: "Load remains active without intentional gate drive.",
+            problem: "Switch does not turn off.",
+            causes: ["Gate floating", "No pull-down resistor"],
+            fix: ["Tie gate to known state with pull-down.", "Check gate wiring to driver/source."],
+            why: "MOSFET gate has high input impedance and can retain charge.",
+            theory: "Gate control and high-impedance behavior.",
+            measurement: "Measure VGS when switch is expected to be off."
+          },
+          {
+            tag: "Measurement",
+            title: "Drain voltage unexpected",
+            summary: "Observed VDS conflicts with expected switching state.",
+            problem: "Device appears partly on or in wrong region.",
+            causes: ["Device in linear region", "Gate threshold misunderstood"],
+            fix: ["Increase/verify gate drive level.", "Recheck threshold and transfer curve assumptions."],
+            why: "Threshold is not fully-on voltage; region depends on VGS and load.",
+            theory: "Transfer characteristic and operating regions.",
+            measurement: "Plot VDS and ID while sweeping VGS."
+          },
+          {
+            tag: "Wiring",
+            title: "Load not switching",
+            summary: "Output load stays unchanged across gate drive changes.",
+            problem: "Switching action missing.",
+            causes: ["Drain and source reversed", "Wrong device type expectation"],
+            fix: ["Verify D/S orientation from datasheet.", "Confirm enhancement-mode device usage."],
+            why: "Incorrect pin orientation or mode assumption breaks switching behavior.",
+            theory: "MOSFET topology and device type differences.",
+            measurement: "Check source reference and measure gate-to-source directly."
+          },
+          {
+            tag: "Polarity",
+            title: "Body diode conducting",
+            summary: "Unexpected current path appears when switch should block.",
+            problem: "Current flows through intrinsic diode path.",
+            causes: ["Reverse orientation relative to load current path"],
+            fix: ["Reorient MOSFET or topology to block body-diode conduction."],
+            why: "MOSFET includes an internal body diode.",
+            theory: "Intrinsic body diode and directional conduction.",
+            measurement: "Reverse supply briefly at low current to identify diode direction."
+          }
+        ],
+        lab5: [
+          {
+            tag: "Power",
+            title: "Output stuck HIGH",
+            summary: "Logic output does not transition low.",
+            problem: "Node remains at high logic level.",
+            causes: ["Input floating", "No defined logic level"],
+            fix: ["Use pull-up/down network.", "Drive input with defined source."],
+            why: "CMOS inputs have high impedance and easily float.",
+            theory: "CMOS input behavior and logic thresholds.",
+            measurement: "Measure VIN while toggling source to confirm true logic levels."
+          },
+          {
+            tag: "Measurement",
+            title: "Oscilloscope waveform distorted",
+            summary: "Displayed digital edges are noisy or rounded.",
+            problem: "Captured waveform does not represent actual switching cleanly.",
+            causes: ["Probe ground too long", "Improper triggering"],
+            fix: ["Shorten ground spring/lead.", "Set trigger level and slope correctly."],
+            why: "Probe inductance and trigger settings shape observed waveform.",
+            theory: "Measurement setup impact on digital signal integrity.",
+            measurement: "Compare waveform with short ground lead and corrected trigger."
+          },
+          {
+            tag: "Wiring",
+            title: "Logic gate not switching",
+            summary: "Output state ignores expected truth-table input.",
+            problem: "Gate behavior mismatches logic design.",
+            causes: ["Incorrect truth-table wiring", "Missing common ground"],
+            fix: ["Rewire inputs per truth table.", "Ensure all modules share common reference."],
+            why: "Incorrect wiring/reference breaks CMOS logic interpretation.",
+            theory: "Truth table mapping and shared reference necessity.",
+            measurement: "Check each input voltage at IC pins against expected logic state."
+          },
+          {
+            tag: "Polarity",
+            title: "IC overheating",
+            summary: "Chip temperature rises rapidly after power-up.",
+            problem: "Excess current draw in logic IC.",
+            causes: ["Vcc reversed", "No decoupling capacitor"],
+            fix: ["Correct supply polarity immediately.", "Add local decoupling capacitor near IC power pins."],
+            why: "Decoupling stabilizes supply rails and suppresses transient current spikes.",
+            theory: "Supply integrity and decoupling in digital systems.",
+            measurement: "Check VCC/GND orientation and monitor rail ripple near IC."
+          }
+        ]
+      };
+
+      var labSelect = document.getElementById("labSelect");
+      var chips = document.querySelectorAll(".filter-chip");
+      var container = document.getElementById("issuesContainer");
+      var activeContext = document.getElementById("activeContext");
+      var activeTag = "Power";
+
+      function renderIssues() {
+        var labKey = labSelect.value;
+        var selectedOption = labSelect.options[labSelect.selectedIndex];
+        var labLabel = selectedOption ? selectedOption.text : "Lab";
+        if (activeContext) {
+          activeContext.textContent = "Showing: " + labLabel + " • " + activeTag;
+        }
+
+        var issues = (issueBank[labKey] || []).filter(function (item) {
+          return item.tag === activeTag;
+        });
+
+        if (!issues.length) {
+          container.innerHTML = '<p class="empty-state">No issues found for this combination — try selecting a different filter.</p>';
+          return;
+        }
+
+        var html = "";
+        issues.forEach(function (item, index) {
+          var causes = item.causes.map(function (entry) { return "• " + entry; }).join("<br />");
+          var fixes = item.fix.map(function (entry, i) { return (i + 1) + ". " + entry; }).join("<br />");
+          html += ''
+            + '<details class="accordion-item"' + (index === 0 ? " open" : "") + '>'
+            + '  <summary class="accordion-summary">' + item.title + '</summary>'
+            + '  <div class="issue-meta"><span class="tag-badge">' + item.tag + '</span><span class="summary-line">' + item.summary + '</span></div>'
+            + '  <div class="accordion-content">'
+            + '    <div class="trouble-detail-card">'
+            + '      <span class="warning-note">⚠ Troubleshooting guide</span>'
+            + '      <p><strong>Problem:</strong><br />' + item.problem + '</p>'
+            + '      <p><strong>Likely Causes:</strong><br />' + causes + '</p>'
+            + '      <p><strong>How to Fix:</strong><br />' + fixes + '</p>'
+            + '      <p><strong>Why this happens:</strong><br />' + item.why + '</p>'
+            + '      <div class="note-block"><p><strong>Link to theory:</strong><br />' + item.theory + '</p></div>'
+            + '      <div class="note-block"><p><strong>Suggested measurement check:</strong><br />' + item.measurement + '</p></div>'
+            + '    </div>'
+            + '  </div>'
+            + '</details>';
+        });
+        container.innerHTML = html;
+
+        var items = container.querySelectorAll(".accordion-item");
+        items.forEach(function (item) {
+          item.addEventListener("toggle", function () {
+            if (!item.open) return;
+            items.forEach(function (other) {
+              if (other !== item) other.open = false;
+            });
+          });
+        });
+      }
+
+      chips.forEach(function (chip) {
+        chip.addEventListener("click", function () {
+          chips.forEach(function (c) { c.classList.remove("active"); });
+          chip.classList.add("active");
+          activeTag = chip.getAttribute("data-tag");
+          renderIssues();
+        });
+      });
+
+      labSelect.addEventListener("change", renderIssues);
+      renderIssues();
+    })();
+  </script>
+
+  <script src="nav-dropdowns.js"></script>
+</body>
+</html>

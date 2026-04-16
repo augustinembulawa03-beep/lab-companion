@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 4 – MOSFET | Lab Companion</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="w3-bar header-bar">
+    <div class="header-top">
+      <a href="ColHomePage.html" class="logo-wrap" aria-label="Go to homepage">
+        <img src="logo.png" alt="Lab Companion logo" class="logo-img" />
+        <span class="logo-label">Lab Companion</span>
+      </a>
+    </div>
+
+    <div class="header-bottom">
+      <div class="lab-page-nav" aria-label="Lab navigation">
+        <a href="ColHomePage.html#pick-labs" class="back-to-labs">Back to Labs</a>
+        <div class="lab-context-nav">
+          <a href="Lab4.html" class="lab-context-link active">Lab 4</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="2">Theory</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="3">Build</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="4">Quiz</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="lab-page-wrap">
+    <section class="w3-card w3-white lab-header-bar">
+      <div class="w3-row-padding">
+        <div class="w3-col m8 s12">
+          <h1 class="lab-header-title">Lab 4 · MOSFET</h1>
+          <p class="lab-breadcrumb">Home &gt; Labs &gt; Lab 4</p>
+          <div class="lab-stepper">
+            <div class="lab-stepper-top">
+              <span class="lab-step-badge">
+                Step <span id="step-number">1</span> of 4
+              </span>
+              <span class="lab-step-title" id="step-title">Before You Start</span>
+            </div>
+            <div class="lab-stepper-buttons" aria-label="Lab step navigation">
+              <button class="lab-step-btn active" type="button" data-step="1">1 · Prep</button>
+              <button class="lab-step-btn" type="button" data-step="2">2 · Theory</button>
+              <button class="lab-step-btn" type="button" data-step="3">3 · Build</button>
+              <button class="lab-step-btn" type="button" data-step="4">4 · Quiz</button>
+            </div>
+          </div>
+        </div>
+        <div class="w3-col m4 s12">
+          <p class="w3-small w3-right-align">Progress</p>
+          <div class="lab-progress-track w3-light-grey">
+            <div id="lab-progress-fill" class="lab-progress-fill"></div>
+          </div>
+          <p id="lab-progress-text" class="w3-small w3-right-align">0% complete</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="lab-step" id="step-1">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Overview</h2>
+        <p>This lab has three parts. First, you will plot the output characteristics of a 2N7000 MOSFET: how drain current I<sub>D</sub> changes with V<sub>DS</sub> at fixed gate voltages.</p>
+        <p>Second, you will plot the transfer characteristics: how I<sub>D</sub> changes with V<sub>GS</sub> at fixed V<sub>DS</sub> = 10 V. From these graphs you will extract <strong>V<sub>T</sub></strong>, <strong>g<sub>m</sub></strong>, and <strong>r<sub>o</sub></strong>, then compare with datasheet values. An optional task uses the MOSFET as a switch to blink an LED with a square-wave gate signal.</p>
+        <p style="margin-top: 12px;">
+          <a class="w3-button btn-how-it-works" href="Lab%208%20-%20MOSFET%20v2%20student.docx" target="_blank" rel="noopener">
+            Open labsheet (DOCX)
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Learning Outcomes</h2>
+        <p class="lab-mlo">
+          <strong>MLOs covered:</strong> K1, K2, K3, S1, S2<br />
+          <strong>(MOSFET as switch):</strong> K3, S1, S2
+        </p>
+        <ul class="w3-ul">
+          <li>✔ Connect the Keithley 2231A two-channel supply correctly for separate <span class="nowrap">V<sub>GG</sub></span> (gate) and <span class="nowrap">V<sub>DD</sub></span> (drain).</li>
+          <li>✔ Measure I<sub>D</sub> using DMM in series (white 3A port and right black port).</li>
+          <li>✔ Use the oscilloscope to read <span class="nowrap">V<sub>GS</sub></span> on CH1 and <span class="nowrap">V<sub>DS</sub></span> on CH2 using DC Mean measurements.</li>
+          <li>✔ Plot output characteristics (<span class="nowrap">V<sub>DS</sub></span> vs I<sub>D</sub>) for <span class="nowrap">V<sub>GS</sub></span> = 1.1 V, 1.3 V, and 1.5 V.</li>
+          <li>✔ Plot transfer characteristics (<span class="nowrap">V<sub>GS</sub></span> vs I<sub>D</sub>) at fixed <span class="nowrap">V<sub>DS</sub></span> = 10 V.</li>
+          <li>✔ Extract and verify V<sub>T</sub>, g<sub>m</sub> = ΔI<sub>D</sub>/ΔV<sub>GS</sub>, and r<sub>o</sub> = ΔV<sub>DS</sub>/ΔI<sub>D</sub>.</li>
+          <li>✔ Explain MOSFET behaviour in cut-off and triode regions, and why this supports switching.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="lab-two-col">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Equipment Checklist</h2>
+          <ul class="w3-ul">
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />2N7000 N-channel enhancement MOSFET</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Resistors: 1 kΩ, 100 kΩ, and 560 Ω</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Keithley 2231A DC power supply (Channel 1 = <span class="nowrap">V<sub>GG</sub></span>, Channel 2 = <span class="nowrap">V<sub>DD</sub></span>)</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />DMMs × 3 (simultaneous measurement setup)</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Oscilloscope (CH1 for <span class="nowrap">V<sub>GS</sub></span>, CH2 for <span class="nowrap">V<sub>DS</sub></span>)</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Signal generator (3.3 V square wave, 1 Hz) for optional task</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />LED L-53YD (optional switching task)</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Breadboard, wires, and 2N7000 datasheet</label></li>
+          </ul>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have all equipment ready</span></label>
+        </div>
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Safety &amp; Common Mistakes</h2>
+          <ul class="w3-ul">
+            <li>⚠ This lab uses two channels of the Keithley 2231A simultaneously: Channel 1 controls <span class="nowrap">V<sub>GS</sub></span> via <span class="nowrap">V<sub>GG</sub></span>, Channel 2 controls <span class="nowrap">V<sub>DS</sub></span> via <span class="nowrap">V<sub>DD</sub></span>. Do not swap these connections.</li>
+            <li>⚠ The oscilloscope is used for DC readings here. Press Measure and select Mean. Set voltage scale slightly above expected values to avoid clipping.</li>
+            <li>⚠ For drain current, DMM must be in series between R<sub>D</sub> and drain terminal (positive lead to resistor side, negative lead to drain).</li>
+            <li>⚠ Use white <strong>3A</strong> + black port for current mode (SHIFT then DCV), and top-right red + black for voltage mode.</li>
+          </ul>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have read and understood the safety warnings</span></label>
+        </div>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button" disabled>Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-2" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Theory Mini-Lesson</h2>
+        <p class="lab-section-subtitle">2–4 minute read – key ideas only</p>
+        <p>In this lab you generate two key graphs. The output characteristics show I<sub>D</sub> vs V<sub>DS</sub> at fixed V<sub>GS</sub> (1.1 V, 1.3 V, 1.5 V). For small V<sub>DS</sub>, current rises approximately linearly (triode region). At larger V<sub>DS</sub>, current flattens toward saturation.</p>
+        <p>The transfer characteristics show I<sub>D</sub> vs V<sub>GS</sub> at fixed V<sub>DS</sub> = 10 V. Below threshold voltage V<sub>T</sub>, little current flows; above V<sub>T</sub>, I<sub>D</sub> rises rapidly.</p>
+        <p>Definitions used in this lab:<br />
+          V<sub>T</sub>: gate-source threshold voltage where drain current begins to rise.<br />
+          g<sub>m</sub> = ΔI<sub>D</sub>/ΔV<sub>GS</sub> (at constant V<sub>DS</sub>).<br />
+          r<sub>o</sub> = ΔV<sub>DS</sub>/ΔI<sub>D</sub> (at constant V<sub>GS</sub>).
+        </p>
+        <p>Unlike a BJT, a MOSFET gate is insulated by an oxide layer, so gate current I<sub>G</sub> is effectively zero. This is why an input characteristic I<sub>G</sub> vs V<sub>GS</sub> is not normally plotted.</p>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have read the theory section</span></label>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Theory Video</h2>
+        <p class="lab-section-subtitle">PPT narration – watch before you start building</p>
+        <div class="w3-card w3-padding lab-video-item" data-url="lab4-theory.mp4">
+          <p><strong>▶ Lecture Recording (Theory)</strong></p>
+          <p class="w3-small">MOSFET threshold, switching regions and safe operation basics.</p>
+        </div>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have watched the theory video</span></label>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-3" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Step-by-Step Procedure</h2>
+        <ol>
+          <li><strong>Task 1 — Output characteristics (family of curves)</strong><br />
+            Build the Figure 4 style circuit with 2N7000. Use Channel 1 (<span class="nowrap">V<sub>GG</sub></span>) for gate voltage and Channel 2 (<span class="nowrap">V<sub>DD</sub></span>) for drain supply.
+            Connect scope CH1 to V<sub>GS</sub>, CH2 to V<sub>DS</sub>; read DC values using Measure &gt; Mean.
+            Insert DMM in series between R<sub>D</sub> and drain to measure I<sub>D</sub>.
+            Set V<sub>GS</sub> = 1.1 V, then sweep V<sub>DS</sub> from 1 V to 10 V in 1 V steps, recording I<sub>D</sub>.
+            Repeat full sweep for V<sub>GS</sub> = 1.3 V and 1.5 V.
+            <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 1 complete</span></label>
+          </li>
+          <li><strong>Task 2 — Transfer characteristics</strong><br />
+            Keep the same circuit. Fix V<sub>DS</sub> at 10 V. Sweep V<sub>GS</sub> from 0 to 1.55 V (0.1 V steps, including 1.55 V), recording I<sub>D</sub> for each point.
+            Plot V<sub>GS</sub> vs I<sub>D</sub> and extract V<sub>T</sub> from the graph. Compute g<sub>m</sub> from the linear-slope region and r<sub>o</sub> from the saturation region of output curves.
+
+            <div class="lab-tip-box">
+              <strong>Lab tip:</strong>
+              If the drain current does not increase when increasing gate voltage, check that the MOSFET source pin is connected to ground. This is a frequent wiring issue.
+            </div>
+
+            <div class="expected-result-box">
+              <strong>Expected Result:</strong>
+              MOSFET threshold voltage is typically between 1 V and 3 V depending on device type.<br>
+              No drain current below threshold is normal.<br>
+              If current flows below threshold, check wiring orientation.
+            </div>
+
+            <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 2 complete</span></label>
+          </li>
+          <li><strong>Task 3 (optional) — MOSFET LED switching demonstration</strong><br />
+            Build the optional switching circuit (Figure 5 style). Set signal generator to 3.3 V square wave at 1 Hz.
+            Use LED L-53YD with 560 Ω resistor in drain path and observe blinking (cut-off vs conduction switching states).
+            <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 3 complete</span></label>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Data Capture &amp; Calculations</h2>
+        <p class="lab-section-subtitle" style="margin-top:6px;">
+          Use the blank output-characteristics and transfer-characteristics tables provided in the linked labsheet.
+        </p>
+        <p class="w3-small" style="margin-top:0;">
+          Record your VDS–ID family of curves and your VGS–ID transfer sweep in the labsheet tables. From your plotted graphs,
+          extract V<sub>T</sub>, g<sub>m</sub>, and r<sub>o</sub>, then verify against the 2N7000 datasheet.
+        </p>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have recorded my measurements</span></label>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Build Step Video Placeholder</h2>
+        <div class="w3-card w3-padding lab-video-item" data-url="lab4-video.mp4">
+          <p><strong>▶ Building the MOSFET Switch Circuit</strong></p>
+          <p class="w3-small">Follow the guided wiring and measurement checks for this lab.</p>
+        </div>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have watched the video</span></label>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-4" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Interactive Quiz</h2>
+        <p class="lab-section-subtitle">Check your graph interpretation and MOSFET setup logic</p>
+
+        <p><strong>1. In the output-characteristics experiment (constant V<sub>GS</sub>, increasing V<sub>DS</sub>), what happens to I<sub>D</sub> after the curve enters saturation?</strong></p>
+        <div class="lab-quiz-options">
+          <label><input type="radio" name="q1" value="a" /> I<sub>D</sub> keeps rising steeply in a straight line.</label>
+          <label><input type="radio" name="q1" value="b" /> I<sub>D</sub> flattens and stays roughly constant.</label>
+          <label><input type="radio" name="q1" value="c" /> I<sub>D</sub> drops back to zero.</label>
+        </div>
+
+        <p><strong>2. From transfer data: V<sub>GS</sub> rises 1.2 V to 1.4 V, and I<sub>D</sub> rises 2 mA to 8 mA. What is g<sub>m</sub>?</strong></p>
+        <input id="q2" class="w3-input w3-border lab-quiz-input" type="number" placeholder="Answer in mA/V" />
+
+        <p><strong>3. Spot the mistake:</strong> A student leaves the MOSFET gate floating. What is the risk?</p>
+        <div class="lab-quiz-options">
+          <label><input type="radio" name="q3" value="a" /> The gate will always stay low.</label>
+          <label><input type="radio" name="q3" value="b" /> The MOSFET may switch on and off unpredictably.</label>
+          <label><input type="radio" name="q3" value="c" /> Only the body diode will conduct.</label>
+        </div>
+
+        <button id="quiz-submit" class="w3-button btn-how-it-works" type="button">Submit</button>
+        <p id="quiz-feedback" class="lab-quiz-feedback"></p>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Post-Lab Reflection</h2>
+        <ul class="lab-reflection-list">
+          <li>From your transfer graph, what is the approximate V<sub>T</sub> of the 2N7000, and how does it compare with the datasheet?</li>
+          <li>Why is an input characteristic I<sub>G</sub> vs V<sub>GS</sub> not usually plotted for MOSFETs (unlike BJT input characteristics)?</li>
+          <li>From your output-characteristics family, how does saturation current change as V<sub>GS</sub> increases from 1.1 V to 1.5 V, and does that match the transfer curve trend?</li>
+        </ul>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have completed my reflection</span></label>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button" disabled>Next</button>
+    </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var currentStep = 1;
+      var totalSteps = 4;
+      var stepTitleMap = {
+        1: "Before You Start",
+        2: "Theory & Background",
+        3: "Practical Build",
+        4: "Quiz & Reflection"
+      };
+
+      var stepNumberEl = document.getElementById("step-number");
+      var stepTitleEl = document.getElementById("step-title");
+      var stepBtns = document.querySelectorAll(".lab-step-btn");
+      var contextLinks = document.querySelectorAll(".lab-context-link[data-step]");
+
+      function isStepComplete(step) {
+        var stepEl = document.getElementById("step-" + step);
+        if (!stepEl) return true;
+        var stepChecks = stepEl.querySelectorAll(".prog-cb");
+        if (!stepChecks.length) return true;
+        var complete = true;
+        stepChecks.forEach(function (cb) {
+          if (!cb.checked) complete = false;
+        });
+        return complete;
+      }
+
+      function canNavigateTo(targetStep) {
+        for (var i = 1; i < targetStep; i++) {
+          if (!isStepComplete(i)) return false;
+        }
+        return true;
+      }
+
+      function showStep(step, keepScroll) {
+        currentStep = step;
+        for (var i = 1; i <= totalSteps; i++) {
+          var el = document.getElementById("step-" + i);
+          if (el) el.style.display = (i === step) ? "block" : "none";
+        }
+        if (stepNumberEl) stepNumberEl.textContent = String(step);
+        if (stepTitleEl) stepTitleEl.textContent = stepTitleMap[step] || "Step";
+
+        stepBtns.forEach(function (btn) {
+          var s = parseInt(btn.getAttribute("data-step"), 10);
+          if (s === step) btn.classList.add("active");
+          else btn.classList.remove("active");
+        });
+        contextLinks.forEach(function (link) {
+          var s = parseInt(link.getAttribute("data-step"), 10);
+          if (s === step) link.classList.add("active");
+          else link.classList.remove("active");
+        });
+        document.querySelectorAll(".lab-prev").forEach(function (b) {
+          b.disabled = (currentStep === 1);
+        });
+        document.querySelectorAll(".lab-next").forEach(function (b) {
+          b.disabled = (currentStep === totalSteps) || !isStepComplete(currentStep);
+        });
+        if (!keepScroll) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function nextStep() {
+        if (currentStep < totalSteps && isStepComplete(currentStep)) showStep(currentStep + 1);
+      }
+      function prevStep() {
+        if (currentStep > 1) showStep(currentStep - 1);
+      }
+
+      stepBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var s = parseInt(btn.getAttribute("data-step"), 10);
+          if (!isNaN(s) && canNavigateTo(s)) showStep(s);
+        });
+      });
+      contextLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          var s = parseInt(link.getAttribute("data-step"), 10);
+          if (!isNaN(s) && canNavigateTo(s)) showStep(s);
+        });
+      });
+      document.querySelectorAll(".lab-next").forEach(function (btn) {
+        btn.addEventListener("click", nextStep);
+      });
+      document.querySelectorAll(".lab-prev").forEach(function (btn) {
+        btn.addEventListener("click", prevStep);
+      });
+
+      var checkboxes = document.querySelectorAll(".prog-cb");
+      var progressFill = document.getElementById("lab-progress-fill");
+      var progressText = document.getElementById("lab-progress-text");
+
+      function updateProgress() {
+        var total = checkboxes.length;
+        var checked = 0;
+        checkboxes.forEach(function (cb) { if (cb.checked) checked++; });
+        var pct = total ? Math.round((checked / total) * 100) : 0;
+        progressFill.style.width = pct + "%";
+        progressText.textContent = pct + "% complete";
+      }
+
+      checkboxes.forEach(function (cb) {
+        cb.addEventListener("change", function () {
+          updateProgress();
+          showStep(currentStep, true);
+        });
+      });
+
+      // Auto-check equipment list when "I have all equipment ready" is ticked
+      (function () {
+        var readyLabel = Array.prototype.find.call(
+          document.querySelectorAll("#step-1 .progress-check"),
+          function (l) { return (l.textContent || "").indexOf("I have all equipment ready") !== -1; }
+        );
+        var readyCb = readyLabel ? readyLabel.querySelector("input.prog-cb") : null;
+        var card = readyLabel ? readyLabel.closest(".w3-card") : null;
+        var equipCbs = card ? card.querySelectorAll("ul .prog-cb") : null;
+        if (!readyCb || !equipCbs) return;
+
+        readyCb.addEventListener("change", function () {
+          if (!readyCb.checked) return;
+          equipCbs.forEach(function (cb) { cb.checked = true; });
+          updateProgress();
+          showStep(currentStep, true);
+        });
+      })();
+
+      var submitBtn = document.getElementById("quiz-submit");
+      var feedback = document.getElementById("quiz-feedback");
+
+      if (submitBtn) {
+        submitBtn.addEventListener("click", function () {
+          var score = 0, total = 3;
+          var messages = [];
+          var q1 = document.querySelector("input[name='q1']:checked");
+          if (!q1) {
+            messages.push("Q1: Please select an answer.");
+          } else if (q1.value === "b") {
+            score++;
+            messages.push("Q1: ✅ Correct — once VDS is high enough, the device enters saturation and ID is mainly controlled by VGS, so the curve flattens.");
+          } else if (q1.value === "a") {
+            messages.push("Q1: ❌ Not quite — steep linear rise is triode-region behaviour at lower VDS, not saturation.");
+          } else {
+            messages.push("Q1: ❌ Not quite — ID does not return to zero in saturation for fixed VGS above threshold.");
+          }
+
+          var q2Value = parseFloat(document.getElementById("q2").value);
+          if (isNaN(q2Value)) {
+            messages.push("Q2: Please enter a number (mA/V).");
+          } else if (Math.abs(q2Value - 30) <= 2) {
+            score++;
+            messages.push("Q2: ✅ Correct — g<sub>m</sub> = ΔI<sub>D</sub>/ΔV<sub>GS</sub> = (8−2) mA / (1.4−1.2) V = <strong>30 mA/V</strong>.");
+          } else {
+            messages.push("Q2: ❌ Check slope calculation: ΔI<sub>D</sub> = 6 mA and ΔV<sub>GS</sub> = 0.2 V, so g<sub>m</sub> = <strong>30 mA/V</strong>.");
+          }
+
+          var q3 = document.querySelector("input[name='q3']:checked");
+          if (!q3) {
+            messages.push("Q3: Please select an answer.");
+          } else if (q3.value === "b") {
+            score++;
+            messages.push("Q3: ✅ Correct — a floating gate has no defined voltage, so noise or static charge can drive VGS above VT and switch the MOSFET unpredictably. A pull-down defines OFF state.");
+          } else if (q3.value === "a") {
+            messages.push("Q3: ❌ Not quite — floating does not mean held low; without a defined path the gate can drift due to coupling/noise.");
+          } else {
+            messages.push("Q3: ❌ Not quite — the main risk is unpredictable channel turn-on from floating VGS, not only body-diode conduction.");
+          }
+
+          var header = (score === total)
+            ? "<strong>Great work — " + score + " / " + total + ".</strong>"
+            : "<strong>You scored " + score + " / " + total + ".</strong> Use the feedback below and retry.";
+          feedback.innerHTML = header + "<br><br>" + messages.join("<br><br>");
+        });
+      }
+
+      document.querySelectorAll(".lab-video-item").forEach(function (card) {
+        card.addEventListener("click", function () {
+          var url = card.getAttribute("data-url");
+          if (url) window.open(url, "_blank");
+        });
+      });
+
+      showStep(1);
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>

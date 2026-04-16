@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact &amp; Feedback | Lab Companion</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="w3-bar header-bar">
+    <div class="header-top">
+      <a href="ColHomePage.html" class="logo-wrap" aria-label="Go to homepage">
+        <img src="logo.png" alt="Lab Companion logo" class="logo-img" />
+        <span class="logo-label">Lab Companion</span>
+      </a>
+    </div>
+
+    <div class="header-bottom">
+      <nav class="header-nav" aria-label="Primary navigation">
+        <a href="ColHomePage.html" class="w3-button nav-link">Home</a>
+        <div class="w3-dropdown-hover">
+          <button type="button" class="w3-button labs-dropdown-trigger">Labs ▾</button>
+          <div class="w3-dropdown-content w3-bar-block w3-white labs-dropdown-menu">
+            <a href="Lab1.html" class="w3-bar-item w3-button">Lab 1 – Components &amp; Instruments</a>
+            <a href="Lab2.html" class="w3-bar-item w3-button">Lab 2 – Diodes</a>
+            <a href="Lab3.html" class="w3-bar-item w3-button">Lab 3 – BJTs</a>
+            <a href="Lab4.html" class="w3-bar-item w3-button">Lab 4 – MOSFETs</a>
+            <a href="Lab5.html" class="w3-bar-item w3-button">Lab 5 – Digital Logic</a>
+          </div>
+        </div>
+        <a href="Support.html" class="w3-button nav-link">Support</a>
+        <a href="ContactFeedback.html" class="w3-button nav-link active">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#" class="w3-button btn-signin">Sign in</a>
+        <a href="#" class="w3-button btn-register">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="feedback-wrap">
+    <h1 class="feedback-title">Contact &amp; Platform Feedback</h1>
+    <p class="feedback-subtitle">Your feedback helps us improve Lab Companion for everyone.</p>
+
+    <section class="feedback-section">
+      <h2 class="feedback-section-title">Rate Platform</h2>
+      <label class="feedback-label">How helpful is Lab Companion?</label>
+      <div class="star-rating" aria-label="Rate us out of 5 stars">
+        <button type="button" class="star-btn active" data-star="1" aria-label="Rate 1 star">★</button>
+        <button type="button" class="star-btn active" data-star="2" aria-label="Rate 2 stars">★</button>
+        <button type="button" class="star-btn active" data-star="3" aria-label="Rate 3 stars">★</button>
+        <button type="button" class="star-btn active" data-star="4" aria-label="Rate 4 stars">★</button>
+        <button type="button" class="star-btn active" data-star="5" aria-label="Rate 5 stars">★</button>
+      </div>
+    </section>
+
+    <section class="feedback-section">
+      <h2 class="feedback-section-title">Suggestions</h2>
+
+      <div class="feedback-row">
+        <label class="feedback-label" for="labsSuggestion">What labs would you like added?</label>
+        <textarea id="labsSuggestion" class="feedback-textarea" placeholder="Example: Op-amp filters, ADC basics, sensor interfacing..."></textarea>
+      </div>
+
+      <div class="feedback-row" style="margin-bottom:0;">
+        <label class="feedback-label" for="contentImprove">What content should be improved?</label>
+        <textarea id="contentImprove" class="feedback-textarea" placeholder="Tell us what was unclear or could be explained better."></textarea>
+      </div>
+    </section>
+
+    <section class="feedback-section">
+      <h2 class="feedback-section-title">Report Issue</h2>
+
+      <div class="feedback-row">
+        <label class="feedback-label" for="issueLab">Select Lab:</label>
+        <select id="issueLab" class="feedback-select">
+          <option>Lab 1 – Components &amp; Instruments</option>
+          <option>Lab 2 – Diodes</option>
+          <option>Lab 3 – BJTs</option>
+          <option>Lab 4 – MOSFETs</option>
+          <option>Lab 5 – Digital Logic</option>
+          <option>General platform issue</option>
+        </select>
+      </div>
+
+      <div class="feedback-row" style="margin-bottom:0;">
+        <label class="feedback-label" for="issueText">Describe the issue:</label>
+        <textarea id="issueText" class="feedback-textarea" placeholder="What happened, and what did you expect to happen?"></textarea>
+      </div>
+    </section>
+
+    <button id="feedbackSubmit" class="w3-button btn-register" type="button">Submit Feedback</button>
+  </main>
+
+  <script>
+    (function () {
+      var stars = document.querySelectorAll(".star-btn");
+      var submitBtn = document.getElementById("feedbackSubmit");
+
+      stars.forEach(function (star) {
+        star.addEventListener("click", function () {
+          var selected = parseInt(star.getAttribute("data-star"), 10);
+          stars.forEach(function (s) {
+            var value = parseInt(s.getAttribute("data-star"), 10);
+            s.classList.toggle("active", value <= selected);
+          });
+        });
+      });
+
+      if (submitBtn) {
+        submitBtn.addEventListener("click", function () {
+          var selectedRating = 0;
+          stars.forEach(function (s) {
+            if (s.classList.contains("active")) selectedRating++;
+          });
+
+          const feedbackData = {
+            rating: String(selectedRating),
+            suggestions: (document.getElementById("labsSuggestion").value || "") + "\n\n" + (document.getElementById("contentImprove").value || ""),
+            issueLab: document.getElementById("issueLab").value
+          };
+
+          localStorage.setItem("labCompanionFeedback", JSON.stringify(feedbackData));
+
+          submitBtn.textContent = "Thanks for your feedback! Your response has been saved locally.";
+          submitBtn.disabled = true;
+        });
+      }
+    })();
+  </script>
+
+  <script src="nav-dropdowns.js"></script>
+</body>
+</html>

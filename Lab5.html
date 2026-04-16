@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 5 – CMOS | Lab Companion</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="w3-bar header-bar">
+    <div class="header-top">
+      <a href="ColHomePage.html" class="logo-wrap" aria-label="Go to homepage">
+        <img src="logo.png" alt="Lab Companion logo" class="logo-img" />
+        <span class="logo-label">Lab Companion</span>
+      </a>
+    </div>
+
+    <div class="header-bottom">
+      <div class="lab-page-nav" aria-label="Lab navigation">
+        <a href="ColHomePage.html#pick-labs" class="back-to-labs">Back to Labs</a>
+        <div class="lab-context-nav">
+          <a href="Lab5.html" class="lab-context-link active">Lab 5</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="2">Theory</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="3">Build</a>
+          <span class="lab-context-sep">|</span>
+          <a href="#" class="lab-context-link" data-step="4">Quiz</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="lab-page-wrap">
+    <section class="w3-card w3-white lab-header-bar">
+      <div class="w3-row-padding">
+        <div class="w3-col m8 s12">
+          <h1 class="lab-header-title">Lab 5 · CMOS</h1>
+          <p class="lab-breadcrumb">Home &gt; Labs &gt; Lab 5</p>
+          <div class="lab-stepper">
+            <div class="lab-stepper-top">
+              <span class="lab-step-badge">
+                Step <span id="step-number">1</span> of 4
+              </span>
+              <span class="lab-step-title" id="step-title">Before You Start</span>
+            </div>
+            <div class="lab-stepper-buttons" aria-label="Lab step navigation">
+              <button class="lab-step-btn active" type="button" data-step="1">1 · Prep</button>
+              <button class="lab-step-btn" type="button" data-step="2">2 · Theory</button>
+              <button class="lab-step-btn" type="button" data-step="3">3 · Build</button>
+              <button class="lab-step-btn" type="button" data-step="4">4 · Quiz</button>
+            </div>
+          </div>
+        </div>
+        <div class="w3-col m4 s12">
+          <p class="w3-small w3-right-align">Progress</p>
+          <div class="lab-progress-track w3-light-grey">
+            <div id="lab-progress-fill" class="lab-progress-fill"></div>
+          </div>
+          <p id="lab-progress-text" class="w3-small w3-right-align">0% complete</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="lab-step" id="step-1">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Overview</h2>
+        <p>This lab has two tasks. In Task 1 you will build a CMOS inverter using a VP2106/TP2104 PMOS and a BS170 NMOS, then use oscilloscope XY mode to capture the transfer characteristic curve (VOUT vs VIN).</p>
+        <p>From that curve you will estimate VOH, VOL, VIL, and VIH and calculate noise margins. In Task 2 you will measure propagation delay, then add 220 pF and 0.1 µF output capacitive loads to observe how delay increases in real digital circuits.</p>
+        <p style="margin-top: 12px;">
+          <a class="w3-button btn-how-it-works" href="Week%2027%20-%20CMOS%20updated%20by%20Jarede%20(1).docx" target="_blank" rel="noopener">
+            Open labsheet (DOCX)
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Learning Outcomes</h2>
+        <p class="lab-mlo">
+          <strong>MLOs covered:</strong> K1, K2, K3, S1, S2<br />
+          <strong>(Propagation delay):</strong> K1, K2, K3, S1, S5
+        </p>
+        <ul class="w3-ul">
+          <li>✔ Identify VP2106/TP2104 and BS170 pin configurations from datasheets before building.</li>
+          <li>✔ Fill Table 1 from datasheets: Vth, turn-on delay, and turn-off delay for both devices.</li>
+          <li>✔ Build the CMOS inverter correctly with matched PMOS/NMOS gate-input and shared output node.</li>
+          <li>✔ Configure function generator to triangular input (0–5 V, 60 Hz) and capture VOUT vs VIN in XY mode.</li>
+          <li>✔ Estimate VIL and VIH from the curve and calculate NML = VIL − VOL, NMH = VOH − VIH.</li>
+          <li>✔ Measure tpHL and tpLH at 1 kHz square-wave input, then repeat with 220 pF and 0.1 µF output load capacitors.</li>
+          <li>✔ Explain why capacitive loading increases propagation delay in digital circuits.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="lab-two-col">
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Equipment Checklist</h2>
+          <ul class="w3-ul">
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />PMOS transistor: VP2106 or TP2104</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />NMOS transistor: BS170</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Capacitors: 220 pF and 0.1 µF</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Function generator (mandatory)</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Oscilloscope (mandatory; XY mode + time-base mode)</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />DC power supply (VDD)</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Breadboard and connecting wires</label></li>
+            <li><label class="checklist-option"><input type="checkbox" class="prog-cb" />Datasheets for VP2106/TP2104 and BS170</label></li>
+          </ul>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have all equipment ready</span></label>
+        </div>
+        <div class="w3-card w3-white w3-padding">
+          <h2 class="lab-section-title">Safety &amp; Common Mistakes</h2>
+          <ul class="w3-ul">
+            <li>⚠ Identify PMOS and NMOS pin configurations from datasheets before wiring; swapped drain/source can break operation and damage components.</li>
+            <li>⚠ In XY mode, keep both channels DC-coupled and scale slightly above 5 V; incorrect scale can clip or compress the transfer curve.</li>
+            <li>⚠ In delay measurements, adjust time base so input/output edge delay is visible; too coarse a time base hides tpHL and tpLH differences.</li>
+          </ul>
+          <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have read and understood the safety warnings</span></label>
+        </div>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button" disabled>Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-2" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Theory Mini-Lesson</h2>
+        <p class="lab-section-subtitle">2–4 minute read – key ideas only</p>
+        <p>In a CMOS inverter, PMOS pulls output high when VIN is low, while NMOS pulls output low when VIN is high. The transfer characteristic (VOUT vs VIN) shows this transition.</p>
+        <p>Noise-margin terms used in this lab:<br />
+          VOH = highest output interpreted as logic 1, VOL = lowest output interpreted as logic 0.<br />
+          VIL = maximum input still interpreted as logic 0, VIH = minimum input interpreted as logic 1.<br />
+          NML = VIL − VOL, NMH = VOH − VIH.
+        </p>
+        <p>Propagation delay: measured between 50% input transition and 50% output transition. You measure tpHL (input high causes output low) and tpLH (input low causes output high).</p>
+        <p>Capacitive loading effect: output capacitance must be charged/discharged each transition. Larger C means longer switching time, so delay increases (demonstrated with 220 pF and 0.1 µF).</p>
+        <p>XY mode reminder: CH1 drives horizontal axis (VIN), CH2 drives vertical axis (VOUT), so you observe direct transfer characteristics rather than time-domain traces.</p>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have read the theory section</span></label>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Theory Video</h2>
+        <p class="lab-section-subtitle">PPT narration – watch before you start building</p>
+        <div class="w3-card w3-padding lab-video-item" data-url="lab5-theory.mp4">
+          <p><strong>▶ Lecture Recording (Theory)</strong></p>
+          <p class="w3-small">CMOS inverter transfer curve and switching threshold walkthrough.</p>
+        </div>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have watched the theory video</span></label>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-3" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Step-by-Step Procedure</h2>
+        <ol>
+          <li><strong>Task 1A — Datasheet setup before building</strong><br />
+            Look up VP2106/TP2104 and BS170 datasheets. Record pin configuration and fill Table 1:
+            gate threshold voltage (min/max), turn-on delay, and turn-off delay for both transistors.
+            <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 1A complete</span></label>
+          </li>
+          <li><strong>Task 1B — Transfer characteristic in XY mode</strong><br />
+            Build the inverter (PMOS source to VDD, NMOS source to ground, gates tied to input, drains tied to output).
+            Set function generator to triangular wave: low = 0 V, high = 5 V, frequency = 60 Hz.
+            Connect scope CH1 to input and CH2 to output, both DC-coupled. Switch scope to XY mode and adjust scales to view full 0–5 V range.
+            Capture curve and estimate VIL, VIH. Then calculate NML and NMH.
+
+            <div class="common-mistake-box">
+              <strong>Common mistake:</strong>
+              Students often forget to switch the oscilloscope into XY mode before capturing the transfer curve. This results in a flat or incorrect display.
+            </div>
+
+            <div class="expected-result-box">
+              <strong>Expected Result:</strong>
+              Output should remain near VDD for low input voltages and near 0 V for high input voltages.<br>
+              Transition region should occur near mid-supply voltage.<br>
+              Unexpected behaviour usually indicates wiring or supply connection error.
+            </div>
+
+            <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 1B complete</span></label>
+          </li>
+          <li><strong>Task 2 — Propagation delay and capacitive loading</strong><br />
+            Switch scope back to time-base mode. Set input to 5 Vpp square wave at 1 kHz.
+            Measure tpHL and tpLH without output capacitor.
+            Add 220 pF from output to ground and repeat.
+            Replace with 0.1 µF and repeat again. Capture a scope screenshot with visible delay.
+            <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>Task 2 complete</span></label>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Data Capture &amp; Calculations</h2>
+        <h3 style="margin:0 0 8px; font-size:1.03rem;">Task 1 records</h3>
+        <ul class="lab-reflection-list" style="padding-left:18px;">
+          <li>Table 1 (datasheet): Vth min/max, turn-on delay, turn-off delay for VP2106/TP2104 and BS170.</li>
+          <li>Estimated from XY curve: VIL = ___ V, VIH = ___ V, VOH = ___ V, VOL = ___ V.</li>
+          <li>Noise margins: NML = VIL − VOL = ___ V, NMH = VOH − VIH = ___ V.</li>
+        </ul>
+
+        <p class="w3-small" style="margin-top:10px;">
+          For Task 2 propagation delay results, use the delay table provided in the linked labsheet.
+        </p>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have recorded my measurements</span></label>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Build Step Video Placeholder</h2>
+        <div class="w3-card w3-padding lab-video-item" data-url="lab5-video.mp4">
+          <p><strong>▶ Building the CMOS Inverter</strong></p>
+          <p class="w3-small">Follow the guided wiring and measurement checks for this lab.</p>
+        </div>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have watched the video</span></label>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button">Next</button>
+    </div>
+    </div>
+
+    <div class="lab-step" id="step-4" style="display:none;">
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Interactive Quiz</h2>
+        <p class="lab-section-subtitle">CMOS inverter concepts used in both tasks</p>
+
+        <p><strong>1. When the CMOS inverter input is at logic 0, which device should conduct?</strong></p>
+        <div class="lab-quiz-options">
+          <label><input type="radio" name="q1" value="a" /> NMOS only.</label>
+          <label><input type="radio" name="q1" value="b" /> PMOS only.</label>
+          <label><input type="radio" name="q1" value="c" /> Both NMOS and PMOS strongly.</label>
+        </div>
+
+        <p><strong>2. From a transfer curve: VOH = 4.9 V, VOL = 0.1 V, VIH = 3.1 V, VIL = 1.8 V. What is NML?</strong></p>
+        <input id="q2" class="w3-input w3-border lab-quiz-input" type="number" placeholder="Answer in V" />
+
+        <p><strong>3. After adding 0.1 µF at the output, what should happen to propagation delay, and why?</strong></p>
+        <div class="lab-quiz-options">
+          <label><input type="radio" name="q3" value="a" /> Delay stays roughly the same; capacitance does not affect switching time.</label>
+          <label><input type="radio" name="q3" value="b" /> Delay increases because output capacitance must charge/discharge each transition.</label>
+          <label><input type="radio" name="q3" value="c" /> Delay decreases because the capacitor smooths the signal.</label>
+        </div>
+
+        <button id="quiz-submit" class="w3-button btn-how-it-works" type="button">Submit</button>
+        <p id="quiz-feedback" class="lab-quiz-feedback"></p>
+      </div>
+    </section>
+
+    <section class="w3-section">
+      <div class="w3-card w3-white w3-padding">
+        <h2 class="lab-section-title">Post-Lab Reflection</h2>
+        <ul class="lab-reflection-list">
+          <li>What was the effect of capacitive loading on propagation delay times? Compare no-cap, 220 pF, and 0.1 uF results and explain the trend.</li>
+          <li>Where did your transfer characteristic switch most sharply, and what does that steep region imply about noise rejection?</li>
+          <li>Why is VOH slightly below VDD and VOL slightly above 0 V in real measurements?</li>
+          <li>Were tpHL and tpLH equal? If not, suggest why PMOS and NMOS switching paths may give different delays.</li>
+        </ul>
+        <label class="progress-check"><input type="checkbox" class="prog-cb" /><span>I have completed my reflection</span></label>
+      </div>
+    </section>
+
+    <div class="lab-nav-buttons">
+      <button class="w3-button btn-how-it-works lab-prev" type="button">Back</button>
+      <button class="w3-button btn-start-lab lab-next" type="button" disabled>Next</button>
+    </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var currentStep = 1;
+      var totalSteps = 4;
+      var stepTitleMap = {
+        1: "Before You Start",
+        2: "Theory & Background",
+        3: "Practical Build",
+        4: "Quiz & Reflection"
+      };
+
+      var stepNumberEl = document.getElementById("step-number");
+      var stepTitleEl = document.getElementById("step-title");
+      var stepBtns = document.querySelectorAll(".lab-step-btn");
+      var contextLinks = document.querySelectorAll(".lab-context-link[data-step]");
+
+      function isStepComplete(step) {
+        var stepEl = document.getElementById("step-" + step);
+        if (!stepEl) return true;
+        var stepChecks = stepEl.querySelectorAll(".prog-cb");
+        if (!stepChecks.length) return true;
+        var complete = true;
+        stepChecks.forEach(function (cb) {
+          if (!cb.checked) complete = false;
+        });
+        return complete;
+      }
+
+      function canNavigateTo(targetStep) {
+        for (var i = 1; i < targetStep; i++) {
+          if (!isStepComplete(i)) return false;
+        }
+        return true;
+      }
+
+      function showStep(step, keepScroll) {
+        currentStep = step;
+        for (var i = 1; i <= totalSteps; i++) {
+          var el = document.getElementById("step-" + i);
+          if (el) el.style.display = (i === step) ? "block" : "none";
+        }
+        if (stepNumberEl) stepNumberEl.textContent = String(step);
+        if (stepTitleEl) stepTitleEl.textContent = stepTitleMap[step] || "Step";
+
+        stepBtns.forEach(function (btn) {
+          var s = parseInt(btn.getAttribute("data-step"), 10);
+          if (s === step) btn.classList.add("active");
+          else btn.classList.remove("active");
+        });
+        contextLinks.forEach(function (link) {
+          var s = parseInt(link.getAttribute("data-step"), 10);
+          if (s === step) link.classList.add("active");
+          else link.classList.remove("active");
+        });
+        document.querySelectorAll(".lab-prev").forEach(function (b) {
+          b.disabled = (currentStep === 1);
+        });
+        document.querySelectorAll(".lab-next").forEach(function (b) {
+          b.disabled = (currentStep === totalSteps) || !isStepComplete(currentStep);
+        });
+        if (!keepScroll) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function nextStep() {
+        if (currentStep < totalSteps && isStepComplete(currentStep)) showStep(currentStep + 1);
+      }
+      function prevStep() {
+        if (currentStep > 1) showStep(currentStep - 1);
+      }
+
+      stepBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var s = parseInt(btn.getAttribute("data-step"), 10);
+          if (!isNaN(s) && canNavigateTo(s)) showStep(s);
+        });
+      });
+      contextLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          var s = parseInt(link.getAttribute("data-step"), 10);
+          if (!isNaN(s) && canNavigateTo(s)) showStep(s);
+        });
+      });
+      document.querySelectorAll(".lab-next").forEach(function (btn) {
+        btn.addEventListener("click", nextStep);
+      });
+      document.querySelectorAll(".lab-prev").forEach(function (btn) {
+        btn.addEventListener("click", prevStep);
+      });
+
+      var checkboxes = document.querySelectorAll(".prog-cb");
+      var progressFill = document.getElementById("lab-progress-fill");
+      var progressText = document.getElementById("lab-progress-text");
+
+      function updateProgress() {
+        var total = checkboxes.length;
+        var checked = 0;
+        checkboxes.forEach(function (cb) { if (cb.checked) checked++; });
+        var pct = total ? Math.round((checked / total) * 100) : 0;
+        progressFill.style.width = pct + "%";
+        progressText.textContent = pct + "% complete";
+      }
+
+      checkboxes.forEach(function (cb) {
+        cb.addEventListener("change", function () {
+          updateProgress();
+          showStep(currentStep, true);
+        });
+      });
+
+      // Auto-check equipment list when "I have all equipment ready" is ticked
+      (function () {
+        var readyLabel = Array.prototype.find.call(
+          document.querySelectorAll("#step-1 .progress-check"),
+          function (l) { return (l.textContent || "").indexOf("I have all equipment ready") !== -1; }
+        );
+        var readyCb = readyLabel ? readyLabel.querySelector("input.prog-cb") : null;
+        var card = readyLabel ? readyLabel.closest(".w3-card") : null;
+        var equipCbs = card ? card.querySelectorAll("ul .prog-cb") : null;
+        if (!readyCb || !equipCbs) return;
+
+        readyCb.addEventListener("change", function () {
+          if (!readyCb.checked) return;
+          equipCbs.forEach(function (cb) { cb.checked = true; });
+          updateProgress();
+          showStep(currentStep, true);
+        });
+      })();
+
+      var submitBtn = document.getElementById("quiz-submit");
+      var feedback = document.getElementById("quiz-feedback");
+
+      if (submitBtn) {
+        submitBtn.addEventListener("click", function () {
+          var score = 0, total = 3;
+          var messages = [];
+          var q1 = document.querySelector("input[name='q1']:checked");
+          if (!q1) {
+            messages.push("Q1: Please select an answer.");
+          } else if (q1.value === "b") {
+            score++;
+            messages.push("Q1: ✅ Correct — with VIN = 0, PMOS has negative VGS and turns on, while NMOS has VGS = 0 and stays off.");
+          } else if (q1.value === "a") {
+            messages.push("Q1: ❌ Not quite — NMOS is off at VIN = 0 (VGS below threshold).");
+          } else {
+            messages.push("Q1: ❌ Not quite — both devices strongly on would cause direct current path, not normal static CMOS logic-0 behaviour.");
+          }
+
+          var q2Value = parseFloat(document.getElementById("q2").value);
+          if (isNaN(q2Value)) {
+            messages.push("Q2: Please enter a number (V).");
+          } else if (Math.abs(q2Value - 1.7) <= 0.1) {
+            score++;
+            messages.push("Q2: ✅ Correct — NML = VIL − VOL = 1.8 − 0.1 = <strong>1.7 V</strong>. NMH would be VOH − VIH = 4.9 − 3.1 = 1.8 V.");
+          } else {
+            messages.push("Q2: ❌ Check the low-noise-margin formula: NML = VIL − VOL, so 1.8 − 0.1 = <strong>1.7 V</strong>.");
+          }
+
+          var q3 = document.querySelector("input[name='q3']:checked");
+          if (!q3) {
+            messages.push("Q3: Please select an answer.");
+          } else if (q3.value === "b") {
+            score++;
+            messages.push("Q3: ✅ Correct — each transition must charge/discharge output capacitance through MOSFET channel resistance. Larger C means longer delay.");
+          } else if (q3.value === "a") {
+            messages.push("Q3: ❌ Not quite — switching delay depends strongly on output capacitance in digital circuits.");
+          } else {
+            messages.push("Q3: ❌ Not quite — smoothing with larger C actually slows edge transitions and increases propagation delay.");
+          }
+
+          var header = (score === total)
+            ? "<strong>Great work — " + score + " / " + total + ".</strong>"
+            : "<strong>You scored " + score + " / " + total + ".</strong> Use the feedback below and retry.";
+          feedback.innerHTML = header + "<br><br>" + messages.join("<br><br>");
+        });
+      }
+
+      document.querySelectorAll(".lab-video-item").forEach(function (card) {
+        card.addEventListener("click", function () {
+          var url = card.getAttribute("data-url");
+          if (url) window.open(url, "_blank");
+        });
+      });
+
+      showStep(1);
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support | Lab Companion</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="w3-bar header-bar">
+    <div class="header-top">
+      <a href="ColHomePage.html" class="logo-wrap" aria-label="Go to homepage">
+        <img src="logo.png" alt="Lab Companion logo" class="logo-img" />
+        <span class="logo-label">Lab Companion</span>
+      </a>
+    </div>
+
+    <div class="header-bottom">
+      <nav class="header-nav" aria-label="Primary navigation">
+        <a href="ColHomePage.html" class="w3-button nav-link">Home</a>
+        <div class="w3-dropdown-hover">
+          <button type="button" class="w3-button labs-dropdown-trigger">
+            Labs ▾
+          </button>
+          <div class="w3-dropdown-content w3-bar-block w3-white labs-dropdown-menu">
+            <a href="Lab1.html" class="w3-bar-item w3-button">Lab 1 – Components &amp; Instruments</a>
+            <a href="Lab2.html" class="w3-bar-item w3-button">Lab 2 – Diodes</a>
+            <a href="Lab3.html" class="w3-bar-item w3-button">Lab 3 – BJTs</a>
+            <a href="Lab4.html" class="w3-bar-item w3-button">Lab 4 – MOSFETs</a>
+            <a href="Lab5.html" class="w3-bar-item w3-button">Lab 5 – Digital Logic</a>
+          </div>
+        </div>
+        <a href="Support.html" class="w3-button nav-link active">Support</a>
+        <a href="ContactFeedback.html" class="w3-button nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#" class="w3-button btn-signin">Sign in</a>
+        <a href="#" class="w3-button btn-register">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="support-wrap">
+    <h1 class="support-title">Support</h1>
+    <p class="support-subtitle">
+      Need help while working through a lab? Choose a support option below.
+    </p>
+
+    <section class="support-grid" aria-label="Support options">
+      <article id="troubleshoot" class="w3-card lab-card">
+        <span class="lab-icon support-emoji" aria-hidden="true">🛠</span>
+        <h2 class="lab-card-title">Troubleshoot</h2>
+        <p class="lab-card-desc">Quick solutions to common lab issues.</p>
+        <a class="support-link" href="Troubleshoot.html">Open Troubleshooter</a>
+      </article>
+
+      <article id="how-it-works" class="w3-card lab-card">
+        <span class="lab-icon support-emoji" aria-hidden="true">📘</span>
+        <h2 class="lab-card-title">How It Works</h2>
+        <p class="lab-card-desc">Understand how Lab Companion guides you.</p>
+        <a class="support-link" href="HowItWorks.html">Learn More</a>
+      </article>
+
+      <article id="faqs" class="w3-card lab-card">
+        <span class="lab-icon support-emoji" aria-hidden="true">❓</span>
+        <h2 class="lab-card-title">FAQs</h2>
+        <p class="lab-card-desc">Common questions about using the platform.</p>
+        <a class="support-link" href="Support.html#faqs">View FAQs</a>
+      </article>
+    </section>
+  </main>
+
+  <script src="nav-dropdowns.js"></script>
+</body>
+</html>
